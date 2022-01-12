@@ -1,0 +1,3033 @@
+{
+  "!tablegen_json_version": 1,
+  "HelpHidden": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "HelpHidden",
+    "!superclasses": [
+      "OptionFlag"
+    ]
+  },
+  "INPUT": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "INPUT",
+    "!superclasses": [
+      "Option"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": null,
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_INPUT",
+      "kind": "def",
+      "printable": "KIND_INPUT"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "<input>",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "KIND_COMMAJOINED": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_COMMAJOINED",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "CommaJoined",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_FLAG": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_FLAG",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Flag",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_GROUP": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_GROUP",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Group",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_INPUT": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_INPUT",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Input",
+    "Precedence": 1,
+    "Sentinel": 1
+  },
+  "KIND_JOINED": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_JOINED",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Joined",
+    "Precedence": 1,
+    "Sentinel": 0
+  },
+  "KIND_JOINED_AND_SEPARATE": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_JOINED_AND_SEPARATE",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "JoinedAndSeparate",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_JOINED_OR_SEPARATE": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_JOINED_OR_SEPARATE",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "JoinedOrSeparate",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_MULTIARG": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_MULTIARG",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "MultiArg",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_REMAINING_ARGS": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_REMAINING_ARGS",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "RemainingArgs",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_REMAINING_ARGS_JOINED": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_REMAINING_ARGS_JOINED",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "RemainingArgsJoined",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_SEPARATE": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_SEPARATE",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Separate",
+    "Precedence": 0,
+    "Sentinel": 0
+  },
+  "KIND_UNKNOWN": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "KIND_UNKNOWN",
+    "!superclasses": [
+      "OptionKind"
+    ],
+    "Name": "Unknown",
+    "Precedence": 2,
+    "Sentinel": 1
+  },
+  "RenderAsInput": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "RenderAsInput",
+    "!superclasses": [
+      "OptionFlag"
+    ]
+  },
+  "RenderJoined": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "RenderJoined",
+    "!superclasses": [
+      "OptionFlag"
+    ]
+  },
+  "RenderSeparate": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "RenderSeparate",
+    "!superclasses": [
+      "OptionFlag"
+    ]
+  },
+  "UNKNOWN": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "UNKNOWN",
+    "!superclasses": [
+      "Option"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": null,
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_UNKNOWN",
+      "kind": "def",
+      "printable": "KIND_UNKNOWN"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "<unknown>",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "add_dyldinfo": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "add_dyldinfo",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Add symbols from the dyldinfo not already in the symbol table",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "add-dyldinfo",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "add_inlinedinfo": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "add_inlinedinfo",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Add symbols from the inlined libraries, TBD only",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "add-inlinedinfo",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_0": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_0",
+    "!superclasses": [
+      "Option",
+      "Separate",
+      "Alias",
+      "MetaVarName"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": null,
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_SEPARATE",
+      "kind": "def",
+      "printable": "KIND_SEPARATE"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<format>",
+    "Name": "format",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_1": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_1",
+    "!superclasses": [
+      "Option",
+      "Separate",
+      "Alias",
+      "MetaVarName"
+    ],
+    "Alias": {
+      "def": "radix_EQ",
+      "kind": "def",
+      "printable": "radix_EQ"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": null,
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_SEPARATE",
+      "kind": "def",
+      "printable": "KIND_SEPARATE"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<radix>",
+    "Name": "radix",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_10": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_10",
+    "!superclasses": [
+      "Option",
+      "JoinedOrSeparate",
+      "HelpText",
+      "Alias",
+      "MetaVarName"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_JOINED_OR_SEPARATE",
+      "kind": "def",
+      "printable": "KIND_JOINED_OR_SEPARATE"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<format>",
+    "Name": "f",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_11": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_11",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "help",
+      "kind": "def",
+      "printable": "help"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --help",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "h",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_12": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_12",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "extern_only",
+      "kind": "def",
+      "printable": "extern_only"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --extern-only",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "g",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_13": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_13",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "AliasArgs"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "just-symbols"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format=just-symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "j",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_14": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_14",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "AliasArgs"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "darwin"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format=darwin",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "m",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_15": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_15",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "Flags"
+    ],
+    "Alias": {
+      "def": "print_armap",
+      "kind": "def",
+      "printable": "print_armap"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [
+      {
+        "def": "HelpHidden",
+        "kind": "def",
+        "printable": "HelpHidden"
+      }
+    ],
+    "Group": null,
+    "HelpText": "Deprecated alias for --print-armap",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "M",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_16": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_16",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "numeric_sort",
+      "kind": "def",
+      "printable": "numeric_sort"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --numeric-sort",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "n",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_17": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_17",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "print_file_name",
+      "kind": "def",
+      "printable": "print_file_name"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --print-file-name",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "o",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_18": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_18",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "no_sort",
+      "kind": "def",
+      "printable": "no_sort"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --no-sort",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "p",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_19": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_19",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "AliasArgs"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "posix"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format=posix",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "P",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_2": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_2",
+    "!superclasses": [
+      "Option",
+      "Separate",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "arch_EQ",
+      "kind": "def",
+      "printable": "arch_EQ"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": null,
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_SEPARATE",
+      "kind": "def",
+      "printable": "KIND_SEPARATE"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "arch",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--",
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_20": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_20",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "reverse_sort",
+      "kind": "def",
+      "printable": "reverse_sort"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --reverse-sort",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "r",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_21": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_21",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "print_size",
+      "kind": "def",
+      "printable": "print_size"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --print-size",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "S",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_22": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_22",
+    "!superclasses": [
+      "Option",
+      "JoinedOrSeparate",
+      "HelpText",
+      "Alias",
+      "MetaVarName"
+    ],
+    "Alias": {
+      "def": "radix_EQ",
+      "kind": "def",
+      "printable": "radix_EQ"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --radix",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_JOINED_OR_SEPARATE",
+      "kind": "def",
+      "printable": "KIND_JOINED_OR_SEPARATE"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<radix>",
+    "Name": "t",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_23": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_23",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "undefined_only",
+      "kind": "def",
+      "printable": "undefined_only"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --undefined-only",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "u",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_24": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_24",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "Flags"
+    ],
+    "Alias": {
+      "def": "defined_only",
+      "kind": "def",
+      "printable": "defined_only"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [
+      {
+        "def": "HelpHidden",
+        "kind": "def",
+        "printable": "HelpHidden"
+      }
+    ],
+    "Group": null,
+    "HelpText": "Deprecated alias for --defined-only",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "U",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_25": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_25",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "numeric_sort",
+      "kind": "def",
+      "printable": "numeric_sort"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --numeric-sort",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "v",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_26": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_26",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "version",
+      "kind": "def",
+      "printable": "version"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --version",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "V",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_27": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_27",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "Flags"
+    ],
+    "Alias": {
+      "def": "no_weak",
+      "kind": "def",
+      "printable": "no_weak"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [
+      {
+        "def": "HelpHidden",
+        "kind": "def",
+        "printable": "HelpHidden"
+      }
+    ],
+    "Group": null,
+    "HelpText": "Deprecated alias for --no-weak",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "W",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_3": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_3",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Alias",
+      "AliasArgs",
+      "Flags"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "just-symbols"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [
+      {
+        "def": "HelpHidden",
+        "kind": "def",
+        "printable": "HelpHidden"
+      }
+    ],
+    "Group": null,
+    "HelpText": "Alias for --format=just-symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "just-symbol-name",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_4": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_4",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Alias",
+      "AliasArgs"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "posix"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format=posix",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "portability",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_5": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_5",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "debug_syms",
+      "kind": "def",
+      "printable": "debug_syms"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --debug-syms",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "a",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_6": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_6",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "print_file_name",
+      "kind": "def",
+      "printable": "print_file_name"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --print-file-name",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "A",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_7": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_7",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias",
+      "AliasArgs"
+    ],
+    "Alias": {
+      "def": "format_EQ",
+      "kind": "def",
+      "printable": "format_EQ"
+    },
+    "AliasArgs": [
+      "bsd"
+    ],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --format=bsd",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "B",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_8": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_8",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "demangle",
+      "kind": "def",
+      "printable": "demangle"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --demangle",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "C",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "anonymous_9": {
+    "!anonymous": true,
+    "!fields": [],
+    "!name": "anonymous_9",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Alias"
+    ],
+    "Alias": {
+      "def": "dynamic",
+      "kind": "def",
+      "printable": "dynamic"
+    },
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Alias for --dynamic",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "D",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "arch_EQ": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "arch_EQ",
+    "!superclasses": [
+      "Option",
+      "Joined",
+      "HelpText",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "architecture(s) from a Mach-O file to dump",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_JOINED",
+      "kind": "def",
+      "printable": "KIND_JOINED"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "arch=",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "debug_syms": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "debug_syms",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show all symbols, even debugger only",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "debug-syms",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "defined_only": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "defined_only",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show only defined symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "defined-only",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "demangle": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "demangle",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Demangle C++ symbol names",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "demangle",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "dyldinfo_only": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "dyldinfo_only",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Show only symbols from the dyldinfo",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "dyldinfo-only",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "dynamic": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "dynamic",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Display dynamic symbols instead of normal symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "dynamic",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "extern_only": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "extern_only",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show only external symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "extern-only",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "format_EQ": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "format_EQ",
+    "!superclasses": [
+      "Option",
+      "Joined",
+      "HelpText",
+      "MetaVarName"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Specify output format: bsd (default), posix, sysv, darwin, just-symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_JOINED",
+      "kind": "def",
+      "printable": "KIND_JOINED"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<format>",
+    "Name": "format=",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "grp_mach_o": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "grp_mach_o",
+    "!superclasses": [
+      "OptionGroup",
+      "HelpText"
+    ],
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "llvm-nm Mach-O Specific Options",
+    "Name": "kind"
+  },
+  "help": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "help",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Display this help",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "help",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "no_demangle": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "no_demangle",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Don't demangle symbol names",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "no-demangle",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "no_dyldinfo": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "no_dyldinfo",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Don't add any symbols from the dyldinfo",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "no-dyldinfo",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "no_llvm_bc": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "no_llvm_bc",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Disable LLVM bitcode reader",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "no-llvm-bc",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "no_sort": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "no_sort",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show symbols in order encountered",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "no-sort",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "no_weak": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "no_weak",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show only non-weak symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "no-weak",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "numeric_sort": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "numeric_sort",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Sort symbols by address",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "numeric-sort",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "print_armap": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "print_armap",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Print the archive map",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "print-armap",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "print_file_name": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "print_file_name",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Precede each symbol with the object file it came from",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "print-file-name",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "print_size": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "print_size",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show symbol size as well as address",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "print-size",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "quiet": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "quiet",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Suppress 'no symbols' diagnostic",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "quiet",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "radix_EQ": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "radix_EQ",
+    "!superclasses": [
+      "Option",
+      "Joined",
+      "HelpText",
+      "MetaVarName"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Radix (o/d/x) for printing symbol Values",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_JOINED",
+      "kind": "def",
+      "printable": "KIND_JOINED"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": "<radix>",
+    "Name": "radix=",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "reverse_sort": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "reverse_sort",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Sort in reverse order",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "reverse-sort",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "s": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "s",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Dump only symbols from this segment and section name",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "s",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "size_sort": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "size_sort",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Sort symbols by size",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "size-sort",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "special_syms": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "special_syms",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Do not filter special symbols from the output",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "special-syms",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "undefined_only": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "undefined_only",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Show only undefined symbols",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "undefined-only",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "version": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "version",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": null,
+    "HelpText": "Display the version",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "version",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "without_aliases": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "without_aliases",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "FF",
+      "Flags"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [
+      {
+        "def": "HelpHidden",
+        "kind": "def",
+        "printable": "HelpHidden"
+      }
+    ],
+    "Group": null,
+    "HelpText": "Exclude aliases from output",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "without-aliases",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "--"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  },
+  "x": {
+    "!anonymous": false,
+    "!fields": [],
+    "!name": "x",
+    "!superclasses": [
+      "Option",
+      "Flag",
+      "HelpText",
+      "F",
+      "Group"
+    ],
+    "Alias": null,
+    "AliasArgs": [],
+    "DefaultValue": null,
+    "Denormalizer": "",
+    "EnumName": null,
+    "Flags": [],
+    "Group": {
+      "def": "grp_mach_o",
+      "kind": "def",
+      "printable": "grp_mach_o"
+    },
+    "HelpText": "Print symbol entry in hex",
+    "ImpliedCheck": "false",
+    "ImpliedValue": null,
+    "KeyPath": null,
+    "Kind": {
+      "def": "KIND_FLAG",
+      "kind": "def",
+      "printable": "KIND_FLAG"
+    },
+    "MacroPrefix": "",
+    "MetaVarName": null,
+    "Name": "x",
+    "NormalizedValues": null,
+    "NormalizedValuesScope": "",
+    "Normalizer": "",
+    "NormalizerRetTy": null,
+    "NumArgs": 0,
+    "Prefixes": [
+      "-"
+    ],
+    "ShouldAlwaysEmit": 0,
+    "ShouldParse": "true",
+    "ValueExtractor": "extractForwardValue",
+    "ValueMerger": "mergeForwardValue",
+    "Values": null,
+    "ValuesCode": null
+  }
+}

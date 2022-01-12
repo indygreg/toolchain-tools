@@ -1,0 +1,49 @@
+[package]
+name = "llvm-command-tablegen-json"
+version = "1.0.0-pre"
+edition = "2021"
+authors = ["Gregory Szorc <gregory.szorc@gmail.com>"]
+license = "Apache-2.0"
+description = "LLVM tablejson JSON for LLVM commands"
+readme = "README.md"
+keywords = ["clang", "llvm", "tablegen"]
+homepage = "https://github.com/indygreg/toolchain-tools"
+repository = "https://github.com/indygreg/toolchain-tools.git"
+
+[dependencies]
+once_cell = "1.0"
+
+[features]
+default = ["13"]
+13 = [
+    "13-clang",
+    "13-dsymutil",
+    "13-lld",
+    "13-cvtres",
+    "13-cxxfilt",
+    "13-dlltool",
+    "13-lib",
+    "13-ml",
+    "13-mt",
+    "13-nm",
+    "13-rc",
+    "13-readobj",
+    "13-size",
+    "13-strings",
+    "13-symbolizer",
+]
+13-clang = []
+13-dsymutil = []
+13-lld = []
+13-cvtres = []
+13-cxxfilt = []
+13-dlltool = []
+13-lib = []
+13-ml = []
+13-mt = []
+13-nm = []
+13-rc = []
+13-readobj = []
+13-size = []
+13-strings = []
+13-symbolizer = []

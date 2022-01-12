@@ -1,0 +1,54 @@
+[package]
+name = "llvm-command-parser"
+version = "0.1.0"
+edition = "2021"
+authors = ["Gregory Szorc <gregory.szorc@gmail.com>"]
+license = "MPL-2.0"
+description = "Parsing of LLVM program arguments"
+readme = "README.md"
+keywords = ["clang", "llvm", "tablegen"]
+homepage = "https://github.com/indygreg/toolchain-tools"
+repository = "https://github.com/indygreg/toolchain-tools.git"
+
+[dependencies.llvm-option-parser]
+version = "0.1.0-pre"
+path = "../llvm-option-parser"
+
+[dependencies.llvm-command-tablegen-json]
+version = "1.0.0-pre"
+path = "../llvm-command-tablegen-json"
+
+[features]
+default = ["13"]
+13 = [
+    "13-clang",
+    "13-dsymutil",
+    "13-lld",
+    "13-cvtres",
+    "13-cxxfilt",
+    "13-dlltool",
+    "13-lib",
+    "13-ml",
+    "13-mt",
+    "13-nm",
+    "13-rc",
+    "13-readobj",
+    "13-size",
+    "13-strings",
+    "13-symbolizer",
+]
+13-clang = ["llvm-command-tablegen-json/13-clang"]
+13-dsymutil = ["llvm-command-tablegen-json/13-dsymutil"]
+13-lld = ["llvm-command-tablegen-json/13-lld"]
+13-cvtres = ["llvm-command-tablegen-json/13-cvtres"]
+13-cxxfilt = ["llvm-command-tablegen-json/13-cxxfilt"]
+13-dlltool = ["llvm-command-tablegen-json/13-dlltool"]
+13-lib = ["llvm-command-tablegen-json/13-lib"]
+13-ml = ["llvm-command-tablegen-json/13-ml"]
+13-mt = ["llvm-command-tablegen-json/13-mt"]
+13-nm = ["llvm-command-tablegen-json/13-nm"]
+13-rc = ["llvm-command-tablegen-json/13-rc"]
+13-readobj = ["llvm-command-tablegen-json/13-readobj"]
+13-size = ["llvm-command-tablegen-json/13-size"]
+13-strings = ["llvm-command-tablegen-json/13-strings"]
+13-symbolizer = ["llvm-command-tablegen-json/13-symbolizer"]

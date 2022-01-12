@@ -1,0 +1,114 @@
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '11 15 * * *'
+jobs:
+  workspace:
+    strategy:
+      fail-fast: false
+      matrix:
+        rust_toolchain:
+          - 'stable'
+          - 'beta'
+          - 'nightly'
+          - '1.56.1'
+        os:
+          - 'ubuntu-20.04'
+          - 'macos-10.15'
+          - 'macos-11.0'
+          - 'windows-2022'
+    continue-on-error: ${{ matrix.rust_toolchain == 'nightly' }}
+    runs-on: ${{ matrix.os }}
+    env:
+      IN_CI: '1'
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SCCACHE_BUCKET: toolchain-tools-sccache
+      SCCACHE_S3_USE_SSL: '1'
+      # Prevent sccache server from stopping due to inactivity.
+      SCCACHE_IDLE_TIMEOUT: '0'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust_toolchain }}
+          default: true
+          profile: minimal
+          components: clippy
+
+      - name: Cache crates.io Index
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git
+          key: ${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+
+      - name: Cache sccache (Windows)
+        id: cache-sccache-windows
+        if: runner.os == 'Windows'
+        uses: actions/cache@v2
+        with:
+          path: ~/.cargo/bin/sccache.exe
+          key: ${{ runner.os }}-sccache-0.2.15-2
+
+      - name: Install sccache build dependencies (Windows)
+        if: runner.os == 'Windows' && steps.cache-sccache-windows.outputs.cache-hit != 'true'
+        run: |
+          vcpkg integrate install
+          vcpkg install openssl:x64-windows
+
+      - name: Install sccache (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          wget -O sccache.tar.gz --progress dot:mega https://github.com/mozilla/sccache/releases/download/v0.2.15/sccache-v0.2.15-x86_64-unknown-linux-musl.tar.gz
+          tar -xvzf sccache.tar.gz
+          mv sccache-v0.2.15-x86_64-unknown-linux-musl/sccache /home/runner/.cargo/bin/sccache
+          chmod +x /home/runner/.cargo/bin/sccache
+
+      - name: Install sccache (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          wget -O sccache.tar.gz --progress dot:mega https://github.com/mozilla/sccache/releases/download/v0.2.15/sccache-v0.2.15-x86_64-apple-darwin.tar.gz
+          tar -xvzf sccache.tar.gz
+          mv sccache-v0.2.15-x86_64-apple-darwin/sccache /Users/runner/.cargo/bin/sccache
+          chmod +x /Users/runner/.cargo/bin/sccache
+
+      - name: Install sccache (Windows)
+        if: steps.cache-sccache-windows.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: |
+          cargo install --features 's3' --version 0.2.15 sccache
+
+      - name: Start sccache
+        run: |
+          sccache --start-server
+
+      - name: Build Workspace
+        env:
+          RUSTC_WRAPPER: sccache
+        run: |
+          rustc --version
+          cargo build --workspace
+          cargo test --workspace --no-run
+
+      - name: Test Workspace
+        env:
+          RUSTC_WRAPPER: sccache
+        run: |
+          cargo test --workspace
+
+      - uses: actions-rs/clippy@master
+        if: ${{ matrix.rust_toolchain == 'stable' || matrix.rust_toolchain == 'beta' }}
+        env:
+          RUSTC_WRAPPER: sccache
+        with:
+          args: --workspace
+
+      - name: Stop sccache
+        run: |
+          sccache --stop-server

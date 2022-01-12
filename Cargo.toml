@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    'llvm-command-parser',
+    'llvm-command-tablegen-json',
+    'llvm-option-parser',
+]
