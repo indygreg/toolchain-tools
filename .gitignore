@@ -1,1 +1,3 @@
 target/
+toolchain-bootstrap/.env
+toolchain-bootstrap/build/

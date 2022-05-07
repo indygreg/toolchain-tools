@@ -1,0 +1,15 @@
+# An LLVM+Clang toolchain using GNU libraries and runtimes.
+llvm-gnu-x86-64-linux:
+  earthly +llvm-gnu-x86-64-linux
+
+# An LLVM+Clang toolchain for macOS targeting the native host.
+llvm-apple-native:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+
+  if [ ! -d build/venv-macos ]; then
+    python3 -m venv build/venv-macos
+    build/venv-macos/bin/pip install -r support/requirements.clang-macos.txt
+  fi
+
+  build/venv-macos/bin/python3 scripts/clang-macos.py build

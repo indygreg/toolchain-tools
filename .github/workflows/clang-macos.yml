@@ -1,0 +1,32 @@
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '11 15 * * *'
+jobs:
+  toolchain:
+    runs-on: 'macos-12'
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SCCACHE_BUCKET: toolchain-tools-sccache
+    steps:
+      - name: Install Just
+        run: |
+          curl -L https://github.com/casey/just/releases/download/1.1.1/just-1.1.1-x86_64-apple-darwin.tar.gz > just.tar.gz
+          echo "afdc9eed21fdc3eedc6e853715232b982cd167d63b741afaf47462e7c61bfd83  just.tar.gz" | shasum -a 256 -c
+          tar -xzf just.tar.gz just
+          mv just /usr/local/bin/just
+          rm just*
+
+      - uses: actions/checkout@v3
+
+      - name: Build LLVM Toolchain
+        run: |
+          cd toolchain-bootstrap
+          just llvm-apple-native
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: toolchain
+          path: toolchain-bootstrap/build/llvm-x86_64-apple-darwin.tar.zst

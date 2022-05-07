@@ -1,0 +1,357 @@
+VERSION 0.6
+
+image-debian-jessie:
+  ARG IMAGE_SHA256=32ad5050caffb2c7e969dac873bce2c370015c2256ff984b70c1c08b3a2816a0
+  ARG DEBIAN_SNAPSHOT=20220429T205342Z
+  FROM debian@sha256:${IMAGE_SHA256}
+  RUN groupadd -g 1000 build && \
+    useradd -u 1000 -g 1000 -d /build -s /bin/bash -m build && \
+    chown -R build:build /build /etc/ld.so.conf.d /usr/local
+  ENV HOME=/build \
+    SHELL=/bin/bash \
+    USER=build \
+    LOGNAME=build \
+    HOSTNAME=builder \
+    DEBIAN_FRONTEND=noninteractive
+  CMD ["/bin/bash", "--login"]
+  WORKDIR '/build'
+  RUN for s in debian_jessie debian_jessie-updates debian-security_jessie/updates; do \
+    echo "deb http://snapshot.debian.org/archive/${s%_*}/${DEBIAN_SNAPSHOT}/ ${s#*_} main"; \
+    done > /etc/apt/sources.list && \
+    ( echo 'quiet "true";'; \
+      echo 'APT::Get::Assume-Yes "true";'; \
+      echo 'APT::Install-Recommends "false";'; \
+      echo 'Acquire::Check-Valid-Until "false";'; \
+      echo 'Acquire::Retries "5";'; \
+    ) > /etc/apt/apt.conf.d/99portable-clang
+  RUN dpkg --add-architecture i386
+  RUN apt-get update
+  ARG install_packages
+  IF [ -n "${install_packages}" ]
+    RUN apt-get install ${install_packages}
+  END
+  COPY scripts/secure-download.sh /usr/local/bin/
+  USER build:build
+
+image-debian-bullseye:
+  ARG IMAGE_SHA256=6846593d7d8613e5dcc68c8f7d8b8e3179c7f3397b84a47c5b2ce989ef1075a0
+  ARG DEBIAN_SNAPSHOT=20220429T205342Z
+  FROM debian@sha256:${IMAGE_SHA256}
+  RUN groupadd -g 1000 build && \
+    useradd -u 1000 -g 1000 -d /build -s /bin/bash -m build && \
+    chown -R build:build /build /etc/ld.so.conf.d /usr/local
+  ENV HOME=/build \
+    SHELL=/bin/bash \
+    USER=build \
+    LOGNAME=build \
+    HOSTNAME=builder \
+    DEBIAN_FRONTEND=noninteractive
+  CMD ["/bin/bash", "--login"]
+  WORKDIR '/build'
+  RUN for s in debian_bullseye debian_bullseye-updates debian-security_bullseye-security; do \
+    echo "deb http://snapshot.debian.org/archive/${s%_*}/${DEBIAN_SNAPSHOT}/ ${s#*_} main"; \
+    done > /etc/apt/sources.list && \
+    ( echo 'quiet "true";'; \
+      echo 'APT::Get::Assume-Yes "true";'; \
+      echo 'APT::Install-Recommends "false";'; \
+      echo 'Acquire::Check-Valid-Until "false";'; \
+      echo 'Acquire::Retries "5";'; \
+    ) > /etc/apt/apt.conf.d/99portable-clang
+  RUN dpkg --add-architecture i386
+  RUN apt-get update
+  ARG install_packages
+  IF [ -n "${install_packages}" ]
+    RUN apt-get install ${install_packages}
+  END
+  USER build:build
+
+image-download:
+  FROM +image-debian-jessie --install_packages="coreutils curl"
+
+image-gnu-build:
+  FROM +image-debian-jessie --install_packages="autoconf automake bison build-essential gawk libtool gcc gcc-multilib make texinfo xz-utils unzip"
+
+image-package:
+  FROM +image-debian-bullseye --install_packages="tar zstd"
+
+deb-download:
+  ARG --required package
+  FROM +image-debian-jessie
+  RUN apt-get download $package
+  SAVE ARTIFACT $package*.deb deb
+
+sccache-x86-64-linux:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-unknown-linux-musl.tar.gz \
+    e6cd8485f93d683a49c83796b9986f090901765aa4feb40d191b03ea770311d8 \
+    sccache.tar.gz
+  RUN tar --strip-components=1 -xvf sccache.tar.gz
+  RUN chmod +x sccache
+  SAVE ARTIFACT sccache
+
+download-binutils:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.xz \
+    e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024 \
+    binutils.tar.xz
+  SAVE ARTIFACT binutils.tar.xz
+
+download-cmake-linux-x86-64:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://github.com/Kitware/CMake/releases/download/v3.21.4/cmake-3.21.4-linux-x86_64.tar.gz \
+    eddba9da5b60e0b5ec5cbb1a65e504d776e247573204df14f6d004da9bc611f9 \
+    cmake.tar.gz
+  SAVE ARTIFACT cmake.tar.gz
+
+download-cpython:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tar.xz \
+    80bf925f571da436b35210886cf79f6eb5fa5d6c571316b73568343451f77a19 \
+    cpython.tar.xz
+  SAVE ARTIFACT cpython.tar.xz
+
+download-gcc-10:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz \
+    64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344 \
+    gcc-10.tar.xz
+  SAVE ARTIFACT gcc-10.tar.xz
+
+download-gcc-12:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/gcc/gcc-12.1.0/gcc-12.1.0.tar.xz \
+    62fd634889f31c02b64af2c468f064b47ad1ca78411c45abe6ac4b5f8dd19c7b \
+    gcc-12.tar.xz
+  SAVE ARTIFACT gcc-12.tar.xz
+
+download-gmp-6.1:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz \
+    87b565e89a9a684fe4ebeeddb8399dce2599f9c9049854ca8c0dfbdea0e21912 \
+    gmp-6.1.tar.xz
+  SAVE ARTIFACT gmp-6.1.tar.xz
+
+download-gmp-6.2:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz \
+    fd4829912cddd12f84181c3451cc752be224643e87fac497b69edddadc49b4f2 \
+    gmp-6.2.tar.xz
+  SAVE ARTIFACT gmp-6.2.tar.xz
+
+download-isl-0.18:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.18.tar.bz2 \
+    6b8b0fd7f81d0a957beb3679c81bbb34ccc7568d5682844d8924424a0dadcb1b \
+    isl-0.18.tar.bz2
+  SAVE ARTIFACT isl-0.18.tar.bz2
+
+download-isl-0.24:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2 \
+    fcf78dd9656c10eb8cf9fbd5f59a0b6b01386205fe1934b3b287a0a1898145c0 \
+    isl-0.24.tar.bz2
+  SAVE ARTIFACT isl-0.24.tar.bz2
+
+download-llvm:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/llvm-project-14.0.3.src.tar.xz \
+    44d3e7a784d5cf805e72853bb03f218bd1058d448c03ca883dabbebc99204e0c \
+    llvm.tar.xz
+  SAVE ARTIFACT llvm.tar.xz
+
+download-mpc-1.0:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/mpc-1.0.3.tar.gz \
+    617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3 \
+    mpc-1.0.tar.gz
+  SAVE ARTIFACT mpc-1.0.tar.gz
+
+download-mpc-1.2:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/mpc-1.2.1.tar.gz \
+    17503d2c395dfcf106b622dc142683c1199431d095367c6aacba6eec30340459 \
+    mpc-1.2.tar.gz
+  SAVE ARTIFACT mpc-1.2.tar.gz
+
+download-mpfr-3.1:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-3.1.6.tar.bz2 \
+    cf4f4b2d80abb79e820e78c8077b6725bbbb4e8f41896783c899087be0e94068 \
+    mpfr-3.1.tar.bz2
+  SAVE ARTIFACT mpfr-3.1.tar.bz2
+
+download-mpfr-4.1:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-4.1.0.tar.bz2 \
+    feced2d430dd5a97805fa289fed3fc8ff2b094c02d05287fd6133e7f1f0ec926 \
+    mpfr-4.1.tar.bz2
+  SAVE ARTIFACT mpfr-4.1.tar.bz2
+
+download-ninja-linux-x86-64:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip \
+    763464859c7ef2ea3a0a10f4df40d2025d3bb9438fcb1228404640410c0ec22d \
+    ninja.zip
+  SAVE ARTIFACT ninja.zip
+
+download-openssl-1.1:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://www.openssl.org/source/openssl-1.1.1n.tar.gz \
+    40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a \
+    openssl.tar.gz
+  SAVE ARTIFACT openssl.tar.gz
+
+binutils-initial-x86-64-linux:
+  FROM +image-gnu-build
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/
+  COPY +download-binutils/binutils.tar.xz /build/
+  COPY scripts/binutils-build.sh /build/binutils-build.sh
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    BUILD_CC=/usr/bin/gcc \
+    BUILD_CXX=/usr/bin/g++ \
+    /build/binutils-build.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+gcc-10-x86-64-linux:
+  ARG PARALLEL=16
+  FROM +image-gnu-build
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
+  COPY +binutils-initial-x86-64-linux/install /toolchain/
+  COPY +download-gcc-10/gcc-10.tar.xz /build/
+  COPY +download-gmp-6.1/gmp-6.1.tar.xz /build/
+  COPY +download-isl-0.18/isl-0.18.tar.bz2 /build/
+  COPY +download-mpc-1.0/mpc-1.0.tar.gz /build/
+  COPY +download-mpfr-3.1/mpfr-3.1.tar.bz2 /build/
+  COPY scripts/gcc-build-x86-64-linux.sh /build/gcc-build.sh
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    GCC_VERSION=10 GMP_VERSION=6.1 ISL_VERSION=0.18 MPC_VERSION=1.0 MPFR_VERSION=3.1 \
+    BUILD_CC=/usr/bin/gcc BUILD_CXX=/usr/bin/g++ \
+    EXTRA_CONFIGURE_ARGS=--disable-bootstrap \
+    PARALLEL=${PARALLEL} \
+    /build/gcc-build.sh
+  SAVE ARTIFACT /build/out-install/toolchain install
+  SAVE ARTIFACT /build/out-support support
+
+# We need to build binutils with a modern GCC to avoid a relocation error with
+# old binutils from base image.
+binutils-x86-64-linux:
+  FROM +image-gnu-build
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +download-binutils/binutils.tar.xz /build/
+  COPY +binutils-initial-x86-64-linux/install /toolchain
+  COPY +gcc-10-x86-64-linux/install /toolchain
+  COPY scripts/binutils-build.sh /build/binutils-build.sh
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    BUILD_CC=/toolchain/bin/gcc \
+    BUILD_CXX=/toolchain/bin/g++ \
+    EXTRA_CONFIGURE_ARGS=--enable-bootstrap \
+    /build/binutils-build.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+gcc-12-x86-64-linux:
+  ARG PARALLEL=16
+  FROM +image-gnu-build
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
+  COPY +download-gcc-12/gcc-12.tar.xz /build/
+  COPY +download-gmp-6.2/gmp-6.2.tar.xz /build/
+  COPY +download-isl-0.24/isl-0.24.tar.bz2 /build/
+  COPY +download-mpc-1.2/mpc-1.2.tar.gz /build/
+  COPY +download-mpfr-4.1/mpfr-4.1.tar.bz2 /build/
+  COPY +binutils-x86-64-linux/install /toolchain
+  COPY +gcc-10-x86-64-linux/install /toolchain
+  COPY scripts/gcc-build-x86-64-linux.sh /build/gcc-build.sh
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    GCC_VERSION=12 GMP_VERSION=6.2 ISL_VERSION=0.24 MPC_VERSION=1.2 MPFR_VERSION=4.1 \
+    BUILD_CC=/toolchain/bin/gcc BUILD_CXX=/toolchain/bin/g++ \
+    PARALLEL=${PARALLEL} \
+    /build/gcc-build.sh
+  SAVE ARTIFACT /build/out-install/toolchain install
+  SAVE ARTIFACT /build/out-support support
+
+openssl-1.1-x86-64-linux:
+  ARG PARALLEL=16
+  FROM +image-debian-jessie --install_packages="build-essential"
+  COPY +download-openssl-1.1/openssl.tar.gz /build/
+  COPY scripts/openssl-build.sh /build/
+  RUN PARALLEL=${PARALLEL} /build/openssl-build.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+cpython-x86-64-linux:
+  ARG PARALLEL=16
+  FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +openssl-1.1-x86-64-linux/install /toolchain
+  COPY +download-cpython/cpython.tar.xz /build/
+  COPY scripts/cpython-build.sh /build/
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    PARALLEL=${PARALLEL} \
+    /build/cpython-build.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+# A bootstrapped Clang targeting the current architecture.
+clang-bootstrap-x86-64-linux:
+  ARG PARALLEL_NINJA=64
+  ARG NINJA_MAX_LOAD=32
+  FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +download-llvm/llvm.tar.xz /build/
+  COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
+  COPY +download-ninja-linux-x86-64/ninja.zip /build/
+  COPY +binutils-x86-64-linux/install /toolchain/
+  COPY +gcc-12-x86-64-linux/install /toolchain/
+  COPY +cpython-x86-64-linux/install /toolchain/
+  COPY scripts/clang-bootstrap.sh /build/
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    PARALLEL_NINJA=${PARALLEL_NINJA} NINJA_MAX_LOAD=${NINJA_MAX_LOAD} \
+    /build/clang-bootstrap.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+llvm-gnu-x86-64-linux-build:
+  ARG PARALLEL_NINJA=64
+  ARG NINJA_MAX_LOAD=32
+  # We need compiler-rt to find the libc statically linked object files (like crt1.o)
+  # for i386. Getting this to work reliably is finicky. Using a multiarch system
+  # with the multiarch install of i386 makes this "just work."
+  FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
+  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +download-llvm/llvm.tar.xz /build/
+  COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
+  COPY +download-ninja-linux-x86-64/ninja.zip /build/
+  COPY +binutils-x86-64-linux/install /toolchain/
+  COPY +gcc-12-x86-64-linux/support /toolchain/
+  FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux
+    COPY +$toolchain/install /toolchain/
+  END
+  COPY scripts/clang-gnu-stage2.sh /build/
+  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
+    PARALLEL_NINJA=${PARALLEL_NINJA} NINJA_MAX_LOAD=${NINJA_MAX_LOAD} \
+    /build/clang-gnu-stage2.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
+# An LLVM toolchain using GNU runtime libraries that runs on Linux x86-64.
+llvm-gnu-x86-64-linux:
+  FROM +image-package
+  COPY +gcc-12-x86-64-linux/support /build/gcc-support/
+  COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/
+  COPY scripts/llvm-assemble-toolchain.sh /build/
+  RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=12 /build/llvm-assemble-toolchain.sh
+  SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu-x86_64-linux.tar.zst
