@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    'apple-sdk',
     'llvm-command-parser',
     'llvm-command-tablegen-json',
     'llvm-option-parser',
