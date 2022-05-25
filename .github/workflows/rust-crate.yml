@@ -49,40 +49,36 @@ jobs:
             ~/.cargo/git
           key: ${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
 
-      - name: Cache sccache (Windows)
-        id: cache-sccache-windows
-        if: runner.os == 'Windows'
-        uses: actions/cache@v2
-        with:
-          path: ~/.cargo/bin/sccache.exe
-          key: ${{ runner.os }}-sccache-0.2.15-2
-
-      - name: Install sccache build dependencies (Windows)
-        if: runner.os == 'Windows' && steps.cache-sccache-windows.outputs.cache-hit != 'true'
-        run: |
-          vcpkg integrate install
-          vcpkg install openssl:x64-windows
-
       - name: Install sccache (Linux)
         if: runner.os == 'Linux'
         run: |
-          wget -O sccache.tar.gz --progress dot:mega https://github.com/mozilla/sccache/releases/download/v0.2.15/sccache-v0.2.15-x86_64-unknown-linux-musl.tar.gz
+          python3 scripts/secure_download.py \
+            https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-unknown-linux-musl.tar.gz \
+            e6cd8485f93d683a49c83796b9986f090901765aa4feb40d191b03ea770311d8 \
+            sccache.tar.gz
           tar -xvzf sccache.tar.gz
-          mv sccache-v0.2.15-x86_64-unknown-linux-musl/sccache /home/runner/.cargo/bin/sccache
+          mv sccache-v0.3.0-x86_64-unknown-linux-musl/sccache /home/runner/.cargo/bin/sccache
+          rm -rf sccache*
           chmod +x /home/runner/.cargo/bin/sccache
 
       - name: Install sccache (macOS)
         if: runner.os == 'macOS'
         run: |
-          wget -O sccache.tar.gz --progress dot:mega https://github.com/mozilla/sccache/releases/download/v0.2.15/sccache-v0.2.15-x86_64-apple-darwin.tar.gz
+          python3 scripts/secure_download.py \
+            https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-apple-darwin.tar.gz \
+            61c16fd36e32cdc923b66e4f95cb367494702f60f6d90659af1af84c3efb11eb \
+            sccache.tar.gz
           tar -xvzf sccache.tar.gz
-          mv sccache-v0.2.15-x86_64-apple-darwin/sccache /Users/runner/.cargo/bin/sccache
+          mv sccache-v0.3.0-x86_64-apple-darwin/sccache /Users/runner/.cargo/bin/sccache
+          rm -rf sccache*
           chmod +x /Users/runner/.cargo/bin/sccache
 
       - name: Install sccache (Windows)
         if: steps.cache-sccache-windows.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: |
-          cargo install --features 's3' --version 0.2.15 sccache
+          python3 scripts/secure_download.py https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-pc-windows-msvc.tar.gz f25e927584d79d0d5ad489e04ef01b058dad47ef2c1633a13d4c69dfb83ba2be sccache.tar.gz
+          tar -xvzf sccache.tar.gz
+          mv sccache-v0.3.0-x86_64-pc-windows-msvc/sccache.exe C:/Users/runneradmin/.cargo/bin/sccache.exe
 
       - name: Start sccache
         run: |
