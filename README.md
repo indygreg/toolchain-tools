@@ -8,6 +8,13 @@ file issues and pull requests there.
 
 # Projects
 
+## `apple-sdk` Rust Crate
+
+A library crate for discovering Apple SDKs and accessing their metadata.
+
+This crate can be used for determining an appropriate Apple SDK to use
+for building.
+
 ## LLVM Command Option Parser
 
 The `llvm-option-parser`, `llvm-command-tablegen-json`, and
