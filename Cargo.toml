@@ -1,6 +1,7 @@
 [workspace]
 members = [
     'apple-sdk',
+    'binary-portability',
     'llvm-command-parser',
     'llvm-command-tablegen-json',
     'llvm-option-parser',
