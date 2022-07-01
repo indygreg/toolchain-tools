@@ -5,4 +5,5 @@ members = [
     'llvm-command-parser',
     'llvm-command-tablegen-json',
     'llvm-option-parser',
+    'text-stub-library',
 ]
