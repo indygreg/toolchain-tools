@@ -218,6 +218,14 @@ download-openssl-1.1:
     openssl.tar.gz
   SAVE ARTIFACT openssl.tar.gz
 
+download-zstd:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz \
+    7c42d56fac126929a6a85dbc73ff1db2411d04f104fae9bdea51305663a83fd0 \
+    zstd.tar.gz
+  SAVE ARTIFACT zstd.tar.gz
+
 binutils-initial-x86-64-linux:
   FROM +image-gnu-build
   COPY +sccache-x86-64-linux/sccache /usr/local/bin/
@@ -295,6 +303,14 @@ openssl-1.1-x86-64-linux:
   RUN PARALLEL=${PARALLEL} /build/openssl-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
+zstd-x86-64-linux:
+  ARG PARALLEL=16
+  FROM +image-debian-jessie --install_packages="build-essential"
+  COPY +download-zstd/zstd.tar.gz /build/
+  COPY scripts/zstd-build.sh /build/
+  RUN PARALLEL=${PARALLEL} /build/zstd-build.sh
+  SAVE ARTIFACT /build/out/toolchain install
+
 cpython-x86-64-linux:
   ARG PARALLEL=16
   FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
@@ -338,7 +354,7 @@ llvm-gnu-x86-64-linux-build:
   COPY +download-ninja-linux-x86-64/ninja.zip /build/
   COPY +binutils-x86-64-linux/install /toolchain/
   COPY +gcc-12-x86-64-linux/support /toolchain/
-  FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux
+  FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux zstd-x86-64-linux
     COPY +$toolchain/install /toolchain/
   END
   COPY scripts/clang-gnu-stage2.sh /build/
