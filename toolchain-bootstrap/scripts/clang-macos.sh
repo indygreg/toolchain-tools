@@ -46,6 +46,7 @@ cmake \
     -DCMAKE_ASM_COMPILER=/usr/bin/clang \
     -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi" \
     -DLLVM_ENABLE_LIBCXX=ON \
+    -DLLVM_ENABLE_ZSTD=OFF \
     -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_LINK_LLVM_DYLIB=ON \
     -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
