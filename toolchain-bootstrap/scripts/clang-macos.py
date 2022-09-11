@@ -31,9 +31,9 @@ COMPRESSION_LEVEL = 18
 DOWNLOADS = [
     {
         "name": "cmake",
-        "url": "https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-macos-universal.tar.gz",
-        "sha256": "f794ed92ccb4e9b6619a77328f313497d7decf8fb7e047ba35a348b838e0e1e2",
-        "version": "3.23.1",
+        "url": "https://github.com/Kitware/CMake/releases/download/v3.24.1/cmake-3.24.1-macos-universal.tar.gz",
+        "sha256": "71bb8db69826d74c395a3c3bbf8b773dbe9f54a2c7331266ba70da303e9c97a1",
+        "version": "3.24.1",
     },
     {
         "name": "ninja",
