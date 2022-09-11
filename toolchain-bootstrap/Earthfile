@@ -165,8 +165,8 @@ download-isl-0.24:
 download-llvm:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.4/llvm-project-14.0.4.src.tar.xz \
-    f40c77ceff02ae3873d273a51b0f93cd8e6409576f771d860d75835335522052 \
+    https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.0/llvm-project-15.0.0.src.tar.xz \
+    caaf8100365b6ebafc39fea803e902ca3ff38b4d5327b9927097808d32964db7 \
     llvm.tar.xz
   SAVE ARTIFACT llvm.tar.xz
 
