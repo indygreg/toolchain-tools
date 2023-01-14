@@ -72,10 +72,11 @@ const TBD_V4_DOCUMENT_START: &str = "--- !tapi-tbd";
 ///
 /// Returns a series of parsed records contained in the stream.
 pub fn parse_str(data: &str) -> Result<Vec<TbdVersionedRecord>, ParseError> {
-    // serde_yaml doesn't support tags on documents with YAML streams
-    // (https://github.com/dtolnay/serde-yaml/issues/147) because yaml-rust
-    // doesn't do so (https://github.com/chyh1990/yaml-rust/issues/147). Our
-    // extremely hacky and inefficient solution is to parse the stream once
+    // serde_yaml didn't support tags on documents with YAML streams
+    // (https://github.com/dtolnay/serde-yaml/issues/147). This code is left
+    // over from that era.
+    //
+    // Our extremely hacky and inefficient solution is to parse the stream once
     // using yaml_rust to ensure it is valid YAML. Then we do a manual pass
     // scanning for document markers (`---` and `...`) and corresponding TBD
     // tags. We then pair things up and feed each document into the serde_yaml
