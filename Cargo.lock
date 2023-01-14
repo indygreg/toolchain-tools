@@ -384,7 +384,7 @@ dependencies = [
 
 [[package]]
 name = "text-stub-library"
-version = "0.9.0-pre"
+version = "0.9.0"
 dependencies = [
  "apple-sdk",
  "rand",
