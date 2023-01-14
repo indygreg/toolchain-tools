@@ -43,9 +43,9 @@ DOWNLOADS = [
     },
     {
         "name": "llvm",
-        "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/llvm-project-15.0.3.src.tar.xz",
-        "sha256": "dd07bdab557866344d85ae21bbeca5259d37b4b0e2ebf6e0481f42d1ba0fee88",
-        "version": "15.0.3",
+        "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/llvm-project-15.0.7.src.tar.xz",
+        "sha256": "8b5fcb24b4128cf04df1b0b9410ce8b1a729cb3c544e6da885d234280dedeac6",
+        "version": "15.0.7",
     }
 ]
 
