@@ -28,7 +28,7 @@ image-debian-jessie:
   RUN apt-get update
   ARG install_packages
   IF [ -n "${install_packages}" ]
-    RUN apt-get install ${install_packages}
+    RUN apt-get install --force-yes ${install_packages}
   END
   COPY scripts/secure-download.sh /usr/local/bin/
   USER build:build
