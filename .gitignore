@@ -1,3 +1,4 @@
+.idea/
 target/
 toolchain-bootstrap/.env
 toolchain-bootstrap/build/
