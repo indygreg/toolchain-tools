@@ -11,7 +11,7 @@ homepage = "https://github.com/indygreg/toolchain-tools"
 repository = "https://github.com/indygreg/toolchain-tools.git"
 
 [dependencies]
-once_cell = "1.0"
+once_cell = "1.17.0"
 
 [features]
 default = ["13"]
