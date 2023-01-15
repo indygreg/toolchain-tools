@@ -370,4 +370,4 @@ llvm-gnu-x86-64-linux:
   COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/
   COPY scripts/llvm-assemble-toolchain.sh /build/
   RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=12 /build/llvm-assemble-toolchain.sh
-  SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu-x86_64-linux.tar.zst
+  SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
