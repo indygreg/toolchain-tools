@@ -46,7 +46,7 @@ DOWNLOADS = [
         "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/llvm-project-15.0.7.src.tar.xz",
         "sha256": "8b5fcb24b4128cf04df1b0b9410ce8b1a729cb3c544e6da885d234280dedeac6",
         "version": "15.0.7",
-    }
+    },
 ]
 
 SCCACHE_AARCH64 = {
@@ -115,7 +115,8 @@ def secure_download_stream(url, sha256):
     if digest != sha256:
         raise IntegrityError(
             "integrity mismatch on %s: wanted sha256=%s; got sha256=%s"
-            % (url, sha256, digest))
+            % (url, sha256, digest)
+        )
 
 
 def download_to_path(url: str, path: pathlib.Path, sha256: str):
