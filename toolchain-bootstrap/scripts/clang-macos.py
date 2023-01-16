@@ -4,6 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+import argparse
 import gzip
 import hashlib
 import http
@@ -211,7 +212,9 @@ def create_tar_from_directory(fh, base_path: pathlib.Path, path_prefix=None):
                     tf.addfile(ti)
 
 
-def build_llvm(build_path: pathlib.Path, script: str, out_name: str) -> pathlib.Path:
+def build_llvm(
+    build_path: pathlib.Path, script: str, out_name: str, git_clone: bool = False
+) -> pathlib.Path:
     downloaded_paths = []
 
     for entry in DOWNLOADS:
@@ -221,13 +224,36 @@ def build_llvm(build_path: pathlib.Path, script: str, out_name: str) -> pathlib.
         download_to_path(entry["url"], dest, entry["sha256"])
         downloaded_paths.append(dest)
 
+    git_dir = None
+
+    if git_clone:
+        git_dir = build_path / "llvm-project.git"
+        if git_dir.exists():
+            subprocess.run(["git", "fetch", "origin"], cwd=git_dir, check=True)
+        else:
+            subprocess.run(
+                [
+                    "git",
+                    "clone",
+                    "--shallow-since",
+                    "2023-01-01",
+                    "--no-checkout",
+                    "https://github.com/llvm/llvm-project.git",
+                    str(git_dir),
+                ],
+                check=True,
+            )
+
     with tempfile.TemporaryDirectory(prefix="toolchain-bootstrap-") as td:
         temp_dir = pathlib.Path(td)
 
         for path in downloaded_paths:
             shutil.copy(path, temp_dir / path.name)
 
-        shutil.copy(ROOT / "scripts" / script, temp_dir / "clang-macos.sh")
+        if git_dir:
+            shutil.copytree(git_dir, temp_dir / "llvm-project")
+
+        shutil.copy(ROOT / "scripts" / script, temp_dir / script)
 
         env = dict(os.environ)
         for entry in DOWNLOADS:
@@ -252,4 +278,29 @@ def build_llvm(build_path: pathlib.Path, script: str, out_name: str) -> pathlib.
 
 
 if __name__ == "__main__":
-    build_llvm(pathlib.Path(os.path.abspath(sys.argv[1])), "clang-macos.sh", "llvm")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "tool",
+        choices={"llvm", "bolt"},
+        help="Which tool to build",
+    )
+    parser.add_argument(
+        "artifacts_path",
+        help="Directory to write destination files into",
+    )
+
+    args = parser.parse_args()
+
+    if args.tool == "llvm":
+        script = "clang-macos.sh"
+    elif args.tool == "bolt":
+        script = "bolt-macos.sh"
+    else:
+        raise Exception("unexpected tool argument")
+
+    build_llvm(
+        pathlib.Path(args.artifacts_path),
+        script,
+        args.tool,
+        git_clone=args.tool == "bolt",
+    )

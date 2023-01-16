@@ -3,7 +3,7 @@ llvm-gnu-x86-64-linux:
   earthly +llvm-gnu-x86-64-linux
 
 # An LLVM+Clang toolchain for macOS targeting the native host.
-llvm-apple-native:
+_apple-native tool:
   #!/usr/bin/env bash
   set -euxo pipefail
 
@@ -12,7 +12,13 @@ llvm-apple-native:
     build/venv-macos/bin/pip install -r support/requirements.clang-macos.txt
   fi
 
-  build/venv-macos/bin/python3 scripts/clang-macos.py build
+  build/venv-macos/bin/python3 scripts/clang-macos.py {{ tool }} build
+
+llvm-apple-native:
+  just _apple-native llvm
 
 bolt-x86-64-linux:
   earthly +bolt-x86-64-linux
+
+bolt-apple-native:
+  just _apple-native bolt

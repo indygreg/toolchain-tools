@@ -29,10 +29,11 @@ cmake \
   -G Ninja \
   ../llvm-project/llvm
 
-LD_LIBRARY_PATH=/toolchain/lib DESTDIR=/build/out ninja -j ${PARALLEL_NINJA} -l ${NINJA_MAX_LOAD} bolt
+LD_LIBRARY_PATH=/toolchain/lib ninja -j ${PARALLEL_NINJA} -l ${NINJA_MAX_LOAD} bolt
 
-mkdir -p /build/out/toolchain/bin
+mkdir -p /build/out/toolchain/{bin,lib}
 cp -av bin/{llvm-bolt,llvm-boltdiff,merge-fdata,perf2bolt} /build/out/toolchain/bin/
+cp -av lib/libbolt_rt*.a /build/out/toolchain/lib/
 
 popd
 
