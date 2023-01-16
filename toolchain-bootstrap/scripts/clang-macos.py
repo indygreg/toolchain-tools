@@ -211,9 +211,7 @@ def create_tar_from_directory(fh, base_path: pathlib.Path, path_prefix=None):
                     tf.addfile(ti)
 
 
-def main():
-    build_path = pathlib.Path(os.path.abspath(sys.argv[1]))
-
+def build_llvm(build_path: pathlib.Path, script: str, out_name: str) -> pathlib.Path:
     downloaded_paths = []
 
     for entry in DOWNLOADS:
@@ -229,7 +227,7 @@ def main():
         for path in downloaded_paths:
             shutil.copy(path, temp_dir / path.name)
 
-        shutil.copy(ROOT / "scripts" / "clang-macos.sh", temp_dir / "clang-macos.sh")
+        shutil.copy(ROOT / "scripts" / script, temp_dir / "clang-macos.sh")
 
         env = dict(os.environ)
         for entry in DOWNLOADS:
@@ -240,9 +238,9 @@ def main():
         env["NUM_JOBS_AGGRESSIVE"] = "%d" % max(cpu_count + 2, cpu_count * 2)
         env["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
-        subprocess.run([str(temp_dir / "clang-macos.sh")], cwd=temp_dir, env=env, check=True)
+        subprocess.run([str(temp_dir / script)], cwd=temp_dir, env=env, check=True)
 
-        dest_path = build_path / ("llvm-%s-apple-darwin.tar.zst" % ARCH)
+        dest_path = build_path / f"{out_name}-{ARCH}-apple-darwin.tar.zst"
         print("writing %s" % dest_path)
 
         cctx = zstandard.ZstdCompressor(level=COMPRESSION_LEVEL)
@@ -250,6 +248,8 @@ def main():
         with zstandard.open(dest_path, "wb", cctx=cctx) as fh:
             create_tar_from_directory(fh, temp_dir / "out" / "toolchain", "llvm")
 
+        return dest_path
+
 
 if __name__ == "__main__":
-    main()
+    build_llvm(pathlib.Path(os.path.abspath(sys.argv[1])), "clang-macos.sh", "llvm")
