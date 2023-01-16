@@ -42,6 +42,7 @@ jobs:
           EOF
 
           earthly +llvm-gnu-x86-64-linux
+          earthly +bolt-x86-64-linux
 
       - uses: actions/upload-artifact@v3
         with:

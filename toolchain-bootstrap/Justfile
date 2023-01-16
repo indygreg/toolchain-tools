@@ -13,3 +13,6 @@ llvm-apple-native:
   fi
 
   build/venv-macos/bin/python3 scripts/clang-macos.py build
+
+bolt-x86-64-linux:
+  earthly +bolt-x86-64-linux
