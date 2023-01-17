@@ -59,7 +59,11 @@ ninja -j ${NUM_JOBS} bolt
 
 mkdir -p ${ROOT}/out/toolchain/{bin,lib}
 cp -av bin/{llvm-bolt,llvm-boltdiff,merge-fdata,perf2bolt} ${ROOT}/out/toolchain/bin/
-cp -av lib/libbolt_rt*.a ${ROOT}/out/toolchain/lib/
+
+# Runtime libraries aren't available for aarch64.
+if [ -e lib/libbolt_rt_instr_osx.a ]; then
+  cp -av lib/libbolt_rt*.a ${ROOT}/out/toolchain/lib/
+fi
 
 popd
 
