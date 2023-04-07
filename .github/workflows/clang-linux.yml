@@ -42,11 +42,9 @@ jobs:
           EOF
 
           earthly +llvm-gnu-x86-64-linux
-          earthly +bolt-x86-64-linux
 
       - uses: actions/upload-artifact@v3
         with:
           name: toolchain
           path: |
             toolchain-bootstrap/build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
-            toolchain-bootstrap/build/bolt-x86_64-unknown-linux-gnu.tar.zst
