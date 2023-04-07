@@ -52,16 +52,16 @@ DOWNLOADS = [
 
 SCCACHE_AARCH64 = {
     "name": "sccache",
-    "url": "https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-aarch64-apple-darwin.tar.gz",
-    "sha256": "65d0a04fac51eaeeadd72d3f7eee3fdc27409aaf23b97945ea537e92bd0b0f0d",
-    "version": "0.3.0",
+    "url": "https://github.com/mozilla/sccache/releases/download/v0.4.1/sccache-v0.4.1-aarch64-apple-darwin.tar.gz",
+    "sha256": "593c6c78796db712c29fe766caef4b8bd2e3d4a68ed5b2b8eca39e03ce2432df",
+    "version": "0.4.1",
 }
 
 SCCACHE_X86_64 = {
     "name": "sccache",
-    "url": "https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-apple-darwin.tar.gz",
-    "sha256": "61c16fd36e32cdc923b66e4f95cb367494702f60f6d90659af1af84c3efb11eb",
-    "version": "0.3.0",
+    "url": "https://github.com/mozilla/sccache/releases/download/v0.4.1/sccache-v0.4.1-x86_64-apple-darwin.tar.gz",
+    "sha256": "a291f1d90c6b25726866f018ec6071fa4d20ca443ad91fe5dfb9740eb4ebc45a",
+    "version": "0.4.1",
 }
 
 if platform.mac_ver()[2] == "arm64":
