@@ -16,9 +16,3 @@ _apple-native tool:
 
 llvm-apple-native:
   just _apple-native llvm
-
-bolt-x86-64-linux:
-  earthly +bolt-x86-64-linux
-
-bolt-apple-native:
-  just _apple-native bolt

@@ -166,8 +166,8 @@ download-isl-0.24:
 download-llvm:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/llvm-project-15.0.7.src.tar.xz \
-    8b5fcb24b4128cf04df1b0b9410ce8b1a729cb3c544e6da885d234280dedeac6 \
+    https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.1/llvm-project-16.0.1.src.tar.xz \
+    ab7e3b95adb88fd5b669ca8c1d3c1e8d2a601c4478290d3ae31d8d70e96f2064 \
     llvm.tar.xz
   SAVE ARTIFACT llvm.tar.xz
 
@@ -378,27 +378,3 @@ llvm-gnu-x86-64-linux:
   RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=12 /build/llvm-assemble-toolchain.sh
   SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
   SAVE ARTIFACT /build/llvm install
-
-bolt-x86-64-linux-build:
-  ARG PARALLEL_NINJA=64
-  ARG NINJA_MAX_LOAD=32
-  FROM +image-debian-jessie --install_packages="libc6-dev git tar unzip zlib1g-dev"
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
-  COPY +clone-llvm/llvm-project /build/llvm-project/
-  COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
-  COPY +download-ninja-linux-x86-64/ninja.zip /build/
-  COPY +binutils-x86-64-linux/install /toolchain/
-  COPY +cpython-x86-64-linux/install /toolchain/
-  COPY +llvm-gnu-x86-64-linux/install /toolchain/
-  COPY scripts/bolt.sh /build/
-  ENV LLVM_COMMIT=db6961db7a0d44da3dd7d0a604f43fc7db8b21b5
-  RUN --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
-    PARALLEL_NINJA=${PARALLEL_NINJA} NINJA_MAX_LOAD=${NINJA_MAX_LOAD} \
-    /build/bolt.sh
-  SAVE ARTIFACT /build/out/toolchain install
-
-bolt-x86-64-linux:
-  FROM +image-package
-  COPY +bolt-x86-64-linux-build/install /build/bolt/
-  RUN tar --sort=name --owner=root:0 --group=root:0 --mtime="2023-01-01 00:00:00" -cvf - bolt | zstd -18 - -o bolt.tar.zst
-  SAVE ARTIFACT /build/bolt.tar.zst AS LOCAL build/bolt-x86_64-unknown-linux-gnu.tar.zst

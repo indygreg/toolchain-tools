@@ -44,7 +44,8 @@ cmake \
     -DCMAKE_C_COMPILER=/usr/bin/clang \
     -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
     -DCMAKE_ASM_COMPILER=/usr/bin/clang \
-    -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi" \
+    -DLLVM_ENABLE_PROJECTS="bolt;clang" \
+    -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi" \
     -DLLVM_ENABLE_LIBCXX=ON \
     -DLLVM_ENABLE_ZSTD=OFF \
     -DLLVM_OPTIMIZED_TABLEGEN=ON \

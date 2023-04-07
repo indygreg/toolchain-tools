@@ -15,7 +15,6 @@ import platform
 import shutil
 import stat
 import subprocess
-import sys
 import tarfile
 import tempfile
 import urllib.request
@@ -44,9 +43,9 @@ DOWNLOADS = [
     },
     {
         "name": "llvm",
-        "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/llvm-project-15.0.7.src.tar.xz",
-        "sha256": "8b5fcb24b4128cf04df1b0b9410ce8b1a729cb3c544e6da885d234280dedeac6",
-        "version": "15.0.7",
+        "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.1/llvm-project-16.0.1.src.tar.xz",
+        "sha256": "ab7e3b95adb88fd5b669ca8c1d3c1e8d2a601c4478290d3ae31d8d70e96f2064",
+        "version": "16.0.1",
     },
 ]
 
@@ -213,7 +212,9 @@ def create_tar_from_directory(fh, base_path: pathlib.Path, path_prefix=None):
 
 
 def build_llvm(
-    build_path: pathlib.Path, script: str, out_name: str, git_clone: bool = False
+    build_path: pathlib.Path,
+    script: str,
+    out_name: str,
 ) -> pathlib.Path:
     downloaded_paths = []
 
@@ -224,34 +225,11 @@ def build_llvm(
         download_to_path(entry["url"], dest, entry["sha256"])
         downloaded_paths.append(dest)
 
-    git_dir = None
-
-    if git_clone:
-        git_dir = build_path / "llvm-project.git"
-        if git_dir.exists():
-            subprocess.run(["git", "fetch", "origin"], cwd=git_dir, check=True)
-        else:
-            subprocess.run(
-                [
-                    "git",
-                    "clone",
-                    "--shallow-since",
-                    "2023-01-01",
-                    "--no-checkout",
-                    "https://github.com/llvm/llvm-project.git",
-                    str(git_dir),
-                ],
-                check=True,
-            )
-
     with tempfile.TemporaryDirectory(prefix="toolchain-bootstrap-") as td:
         temp_dir = pathlib.Path(td)
 
         for path in downloaded_paths:
             shutil.copy(path, temp_dir / path.name)
-
-        if git_dir:
-            shutil.copytree(git_dir, temp_dir / "llvm-project")
 
         shutil.copy(ROOT / "scripts" / script, temp_dir / script)
 
@@ -287,7 +265,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "tool",
-        choices={"llvm", "bolt"},
+        choices={"llvm"},
         help="Which tool to build",
     )
     parser.add_argument(
@@ -299,8 +277,6 @@ if __name__ == "__main__":
 
     if args.tool == "llvm":
         script = "clang-macos.sh"
-    elif args.tool == "bolt":
-        script = "bolt-macos.sh"
     else:
         raise Exception("unexpected tool argument")
 
@@ -308,5 +284,4 @@ if __name__ == "__main__":
         pathlib.Path(args.artifacts_path),
         script,
         args.tool,
-        git_clone=args.tool == "bolt",
     )

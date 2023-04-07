@@ -34,7 +34,7 @@ cmake \
   -DCMAKE_INSTALL_PREFIX=/toolchain \
   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
   -DLLVM_BINUTILS_INCDIR=/toolchain/include \
-  -DLLVM_ENABLE_PROJECTS="clang;compiler-rt" \
+  -DLLVM_ENABLE_PROJECTS="bolt;clang;compiler-rt" \
   -DLLVM_ENABLE_ZSTD=OFF \
   -DLLVM_INSTALL_UTILS=ON \
   -DLLVM_LINK_LLVM_DYLIB=ON \
