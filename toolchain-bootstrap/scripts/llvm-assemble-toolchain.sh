@@ -2,6 +2,10 @@
 
 set -ex
 
+# Remove some cruft that bloats the build.
+rm llvm/bin/c-index-test
+rm llvm/bin/llvm-exegesis
+
 # GCC main library directory is preserved. Clang looks for lib/gcc to denote
 # versioned GNU toolchain files.
 cp -a gcc-support/lib/gcc llvm/lib/
