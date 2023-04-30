@@ -1,4 +1,5 @@
 .idea/
 target/
-toolchain-bootstrap/.env
+toolchain-bootstrap/.arg
+toolchain-bootstrap/.secret
 toolchain-bootstrap/build/

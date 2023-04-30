@@ -16,7 +16,7 @@ jobs:
 
       - name: Install Earthly
         run: |
-          wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly
+          wget https://github.com/earthly/earthly/releases/download/v0.7.4/earthly-linux-amd64 -O /usr/local/bin/earthly
           chmod +x /usr/local/bin/earthly
           /usr/local/bin/earthly bootstrap
 
@@ -33,13 +33,16 @@ jobs:
       - name: Build LLVM GNU Toolchain
         run: |
           cd toolchain-bootstrap
-          cat > .env <<EOF
-          AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-          AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-          SCCACHE_BUCKET=${SCCACHE_BUCKET}
+          cat > .arg <<EOF
           SCCACHE_S3_USE_SSL=1
           PARALLEL=8
           NINJA_MAX_LOAD=12
+          EOF
+
+          cat > .secret <<EOF
+          AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+          AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+          SCCACHE_BUCKET=${SCCACHE_BUCKET}
           EOF
 
           earthly +llvm-gnu-x86-64-linux
