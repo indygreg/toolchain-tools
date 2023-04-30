@@ -39,6 +39,7 @@ jobs:
           SCCACHE_BUCKET=${SCCACHE_BUCKET}
           SCCACHE_S3_USE_SSL=1
           PARALLEL=8
+          NINJA_MAX_LOAD=12
           EOF
 
           earthly +llvm-gnu-x86-64-linux
