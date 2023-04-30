@@ -36,6 +36,7 @@ jobs:
           cat > .arg <<EOF
           SCCACHE_S3_USE_SSL=1
           PARALLEL=8
+          PARALLEL_NINJA=8
           NINJA_MAX_LOAD=12
           EOF
 
