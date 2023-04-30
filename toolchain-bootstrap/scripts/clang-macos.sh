@@ -44,6 +44,7 @@ cmake \
     -DCMAKE_C_COMPILER=/usr/bin/clang \
     -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
     -DCMAKE_ASM_COMPILER=/usr/bin/clang \
+    -DLLVM_APPEND_VC_REV=OFF \
     -DLLVM_ENABLE_PROJECTS="bolt;clang" \
     -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi" \
     -DLLVM_ENABLE_LIBCXX=ON \
@@ -63,6 +64,11 @@ if [ -n "${CI}" ]; then
 else
     NUM_JOBS=${NUM_CPUS}
 fi
+
+# There appears to be a missing dependency from bolt on VCSRevision.h. This may
+# only materialize if building the bolt project before clang. Work around it
+# by forcing the missing header to be generated up front.
+DESTDIR=${ROOT}/out ninja -j ${NUM_JOBS} include/llvm/Support/llvm_vcsrevision_h
 
 DESTDIR=${ROOT}/out ninja -j ${NUM_JOBS} install
 
