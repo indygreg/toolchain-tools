@@ -9,6 +9,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SCCACHE_REGION: us-west-2
       SCCACHE_BUCKET: toolchain-tools-sccache
       FORCE_COLOR: 1
     steps:
@@ -43,6 +44,7 @@ jobs:
           cat > .secret <<EOF
           AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
           AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+          SCCACHE_REGION=${SCCACHE_REGION}
           SCCACHE_BUCKET=${SCCACHE_BUCKET}
           EOF
 

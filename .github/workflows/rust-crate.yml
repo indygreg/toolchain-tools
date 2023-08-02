@@ -23,6 +23,7 @@ jobs:
       IN_CI: '1'
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SCCACHE_REGION: us-west-2
       SCCACHE_BUCKET: toolchain-tools-sccache
       SCCACHE_S3_USE_SSL: '1'
       # Prevent sccache server from stopping due to inactivity.
