@@ -20,14 +20,14 @@ jobs:
           mv just /usr/local/bin/just
           rm just*
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build LLVM Toolchain
         run: |
           cd toolchain-bootstrap
           just llvm-apple-native
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: toolchain
           path: toolchain-bootstrap/build/llvm-x86_64-apple-darwin.tar.zst

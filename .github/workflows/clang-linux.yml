@@ -13,7 +13,7 @@ jobs:
       SCCACHE_BUCKET: toolchain-tools-sccache
       FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # We run out of disk when compiling unless we do this.
       - name: Free Disk Space
@@ -58,7 +58,7 @@ jobs:
 
           earthly +llvm-gnu-x86-64-linux
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: toolchain
           path: |
