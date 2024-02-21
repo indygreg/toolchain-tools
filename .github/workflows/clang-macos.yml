@@ -5,7 +5,13 @@ on:
     - cron: '11 15 * * *'
 jobs:
   toolchain:
-    runs-on: 'macos-12'
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - 'macos-13'
+          - 'macos-14'
+    runs-on: ${{ matrix.runner }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -29,5 +35,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: toolchain
-          path: toolchain-bootstrap/build/llvm-x86_64-apple-darwin.tar.zst
+          name: toolchain-${{ matrix.runner }}
+          path: toolchain-bootstrap/build/llvm-*-apple-darwin.tar.zst
