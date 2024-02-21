@@ -15,6 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # We run out of disk when compiling unless we do this.
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          docker-images: false
+          swap-storage: false
+
       - name: Install Earthly
         run: |
           wget --progress=dot:mega https://github.com/earthly/earthly/releases/download/v0.7.4/earthly-linux-amd64 -O /usr/local/bin/earthly
