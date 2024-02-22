@@ -3,3 +3,4 @@ target/
 toolchain-bootstrap/.arg
 toolchain-bootstrap/.secret
 toolchain-bootstrap/build/
+toolchain-bootstrap/dist/

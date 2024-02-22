@@ -16,3 +16,36 @@ _apple-native tool:
 
 llvm-apple-native:
   just _apple-native llvm
+
+_gh_download workflow commit:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+
+  id=$(gh run list --workflow {{ workflow }} --json conclusion,databaseId,headSha,status | jq --raw-output '.[] | select(.status == "completed" and .conclusion == "success" and .headSha == "{{ commit }}").databaseId' | head -n 1)
+  gh run download --dir dist/artifact $id
+
+_release_download_artifacts commit:
+  just _gh_download clang-linux.yml {{ commit }}
+  just _gh_download clang-macos.yml {{ commit }}
+
+_release_prepare_artifacts commit version tag:
+  rm -rf dist/artifact dist/upload
+  just _release_download_artifacts {{ commit }}
+
+  mkdir -p dist/upload
+
+  mv dist/artifact/toolchain/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst dist/upload/llvm-{{ version }}+{{ tag }}-gnu_only-x86_64-unknown-linux-gnu.tar.zst
+  mv dist/artifact/toolchain-macos-14/llvm-aarch64-apple-darwin.tar.zst dist/upload/llvm-{{ version }}+{{ tag }}-aarch64-apple-darwin.tar.zst
+  mv dist/artifact/toolchain-macos-13/llvm-x86_64-apple-darwin.tar.zst dist/upload/llvm-{{ version }}+{{ tag }}-x86_64-apple-darwin.tar.zst
+
+_release_upload commit tag:
+  gh release create \
+    --prerelease \
+    --target {{commit}} \
+    --title 'Toolchains {{tag}}' \
+    toolchain-bootstrap/{{tag}}
+  gh release upload --clobber toolchain-bootstrap/{{tag}} dist/upload/*
+
+release commit llvm_version tag:
+  just _release_prepare_artifacts {{ commit }} {{ llvm_version }} {{ tag }}
+  just _release_upload {{ commit }} {{ tag }}
