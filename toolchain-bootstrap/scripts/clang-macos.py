@@ -242,6 +242,11 @@ def build_llvm(
         env["NUM_JOBS_AGGRESSIVE"] = "%d" % max(cpu_count + 2, cpu_count * 2)
         env["MACOSX_DEPLOYMENT_TARGET"] = "11.0"
 
+        if ARCH == "aarch64":
+            env["HOST_TRIPLE"] = "arm64-apple-darwin23.2.0"
+        else:
+            env["HOST_TRIPLE"] = "x86_64-apple-darwin23.2.0"
+
         subprocess.run(
             [str(temp_dir / script)],
             cwd=temp_dir,
