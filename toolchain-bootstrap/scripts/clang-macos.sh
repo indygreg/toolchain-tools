@@ -47,7 +47,7 @@ cmake \
     -DLLVM_APPEND_VC_REV=OFF \
     -DLLVM_DEFAULT_TARGET_TRIPLE="${HOST_TRIPLE}" \
     -DLLVM_ENABLE_PROJECTS="bolt;clang;lld" \
-    -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi" \
+    -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;libunwind" \
     -DLLVM_ENABLE_LIBCXX=ON \
     -DLLVM_ENABLE_ZSTD=OFF \
     -DLLVM_HOST_TRIPLE="${HOST_TRIPLE}" \
