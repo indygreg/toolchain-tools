@@ -14,6 +14,8 @@ mv ninja /usr/local/bin/
 mkdir llvm
 pushd llvm
 tar --strip-components=1 -xf ../llvm.tar.xz
+patch -p1 < /build/bolt-computed-gotos.patch
+patch -p1 < /build/tail-duplicator-computed-gotos.patch
 popd
 
 mkdir stage2

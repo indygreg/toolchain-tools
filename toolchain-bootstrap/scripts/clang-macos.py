@@ -231,6 +231,9 @@ def build_llvm(
         for path in downloaded_paths:
             shutil.copy(path, temp_dir / path.name)
 
+        for path in (ROOT / "patches").glob("*.patch"):
+            shutil.copy(path, temp_dir / path.name)
+
         shutil.copy(ROOT / "scripts" / script, temp_dir / script)
 
         env = dict(os.environ)
