@@ -367,6 +367,7 @@ llvm-gnu-x86-64-linux-build:
   FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux zstd-x86-64-linux
     COPY +$toolchain/install /toolchain/
   END
+  COPY patches/*.patch /build/
   COPY scripts/clang-gnu-stage2.sh /build/
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
     PARALLEL_NINJA=${PARALLEL_NINJA} NINJA_MAX_LOAD=${NINJA_MAX_LOAD} \
