@@ -226,8 +226,8 @@ download-openssl-1.1:
 download-zstd:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/facebook/zstd/releases/download/v1.5.5/zstd-1.5.5.tar.gz \
-    9c4396cc829cfae319a6e2615202e82aad41372073482fce286fac78646d3ee4 \
+    https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz \
+    eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3 \
     zstd.tar.gz
   SAVE ARTIFACT zstd.tar.gz
 
