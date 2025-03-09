@@ -85,4 +85,6 @@ DESTDIR=${ROOT}/out ninja -j ${NUM_JOBS} install
 # Move out of objdir
 popd
 
-sccache --stop-server
+# There's a race where the server can stop due to idle and us getting here. So
+# ignore failures to stop server.
+sccache --stop-server || true
