@@ -1,7 +1,7 @@
 [package]
 name = "llvm-option-parser"
 version = "0.1.0-pre"
-edition = "2021"
+edition = "2024"
 authors = ["Gregory Szorc <gregory.szorc@gmail.com>"]
 license = "MPL-2.0"
 description = "Generic LLVM command option parser based on tablegen data"

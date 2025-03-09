@@ -6,3 +6,4 @@ members = [
     'llvm-option-parser',
     'text-stub-library',
 ]
+resolver = "3"
