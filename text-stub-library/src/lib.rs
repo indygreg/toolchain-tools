@@ -175,7 +175,7 @@ mod tests {
                 10
             };
 
-            let mut rng = rand::thread_rng();
+            let mut rng = rand::rng();
             tbd_paths.shuffle(&mut rng);
 
             for path in tbd_paths.iter().take(tbd_paths.len() * percentage / 100) {
