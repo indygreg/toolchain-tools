@@ -525,11 +525,11 @@ impl CommandOptions {
         I: Iterator<Item = T>,
         T: Into<OsString> + Clone,
     {
-        let arg = if let Some(arg) = args.next() {
+        let arg = match args.next() { Some(arg) => {
             arg.into()
-        } else {
+        } _ => {
             return Ok(None);
-        };
+        }};
 
         // TODO expand response files, which have form `@path`.
         // Response files content is treated as regular command line parameters.
@@ -571,18 +571,18 @@ impl CommandOptions {
                 // Separate takes value from next argument.
                 OptionKind::Separate => {
                     if definition.matches_exact(&arg) {
-                        if let Some(value) = args.next() {
+                        match args.next() { Some(value) => {
                             let value = value.into();
 
                             return Ok(Some(ParsedArgument::SingleValue(
                                 definition.clone(),
                                 value,
                             )));
-                        } else {
+                        } _ => {
                             return Err(Error::ParseNoArgumentValue(
                                 definition.option_name.clone(),
                             ));
-                        }
+                        }}
                     }
                 }
                 // Takes form `-name value` or `-namevalue`. e.g. `-l`.
@@ -591,18 +591,18 @@ impl CommandOptions {
                         // Empty remaining means we consumed the full argument and the
                         // value is the next argument.
                         if remaining.is_empty() {
-                            if let Some(value) = args.next() {
+                            match args.next() { Some(value) => {
                                 let value = value.into();
 
                                 return Ok(Some(ParsedArgument::SingleValue(
                                     definition.clone(),
                                     value,
                                 )));
-                            } else {
+                            } _ => {
                                 return Err(Error::ParseNoArgumentValue(
                                     definition.option_name.clone(),
                                 ));
-                            }
+                            }}
                         } else {
                             return Ok(Some(ParsedArgument::SingleValue(
                                 definition.clone(),
@@ -615,7 +615,7 @@ impl CommandOptions {
                 // Takes form `-name=<key> value`.
                 OptionKind::JoinedAndSeparate => {
                     if let Some(remaining) = definition.matches_prefix(&arg) {
-                        if let Some(value) = args.next() {
+                        match args.next() { Some(value) => {
                             let value = value.into();
 
                             return Ok(Some(ParsedArgument::SingleValueKeyed(
@@ -623,11 +623,11 @@ impl CommandOptions {
                                 remaining.to_os_string(),
                                 value,
                             )));
-                        } else {
+                        } _ => {
                             return Err(Error::ParseNoArgumentValue(
                                 definition.option_name.clone(),
                             ));
-                        }
+                        }}
                     }
                 }
 
@@ -804,17 +804,17 @@ impl ParsedArguments {
             .map(|arg| {
                 if let Some(option) = arg.option() {
                     if let Some(alias) = &option.alias {
-                        if let Some(canonical) = options
+                        match options
                             .iter_options()
                             .find(|candidate| &candidate.option_name == alias)
-                        {
+                        { Some(canonical) => {
                             Ok(arg.with_option(canonical.clone()))
-                        } else {
+                        } _ => {
                             Err(Error::AliasMissing(
                                 option.option_name.clone(),
                                 alias.to_string(),
                             ))
-                        }
+                        }}
                     } else {
                         Ok(arg)
                     }
