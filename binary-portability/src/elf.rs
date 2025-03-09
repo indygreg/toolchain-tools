@@ -54,7 +54,8 @@ pub fn analyze_elf<Elf: FileHeader<Endian = Endianness>>(data: &[u8]) -> Result<
                 // every symbol.
                 let symbol_version = if section.sh_type(endian) == SHT_DYNSYM {
                     if let Some(versions) = &symbol_versions {
-                        let version_index = versions.version_index(endian, symbol_index);
+                        let version_index =
+                            versions.version_index(endian, object::SymbolIndex(symbol_index));
 
                         if let Some(version) = versions.version(version_index)? {
                             let version = version.name();
