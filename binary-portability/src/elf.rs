@@ -9,9 +9,9 @@
 use {
     crate::{ObjectFileInfo, Result, UndefinedSymbol},
     object::{
+        Endianness, SectionIndex,
         elf::{DT_NEEDED, SHT_DYNSYM},
         read::elf::{Dyn, FileHeader, SectionHeader, Sym},
-        Endianness, SectionIndex,
     },
 };
 
