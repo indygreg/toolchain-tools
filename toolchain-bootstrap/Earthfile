@@ -108,8 +108,8 @@ download-binutils:
 download-cmake-linux-x86-64:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/Kitware/CMake/releases/download/v3.28.3/cmake-3.28.3-linux-x86_64.tar.gz \
-    804d231460ab3c8b556a42d2660af4ac7a0e21c98a7f8ee3318a74b4a9a187a6 \
+    https://github.com/Kitware/CMake/releases/download/v3.31.7/cmake-3.31.7-linux-x86_64.tar.gz \
+    14e15d0b445dbeac686acc13fe13b3135e8307f69ccf4c5c91403996ce5aa2d4 \
     cmake.tar.gz
   SAVE ARTIFACT cmake.tar.gz
 
