@@ -379,6 +379,7 @@ llvm-gnu-x86-64-linux-build:
 
 # An LLVM toolchain using GNU runtime libraries that runs on Linux x86-64.
 llvm-gnu-x86-64-linux:
+  ARG EARTHLY_SOURCE_DATE_EPOCH
   FROM +image-package
   COPY +gcc-15-x86-64-linux/support /build/gcc-support/
   COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/

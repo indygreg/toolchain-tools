@@ -24,10 +24,12 @@ ln -s gcc/${GNU_TARGET}/${GCC_VERSION}/libgcc_s.so.1 llvm/lib/libgcc_s.so.1
 # Make sure clang works.
 llvm/bin/clang -v
 
+mtime=$(date -d @${EARTHLY_SOURCE_DATE_EPOCH} "+%Y-%m-%d 00:00:00")
+
 tar \
   --sort=name \
   --owner=root:0 \
   --group=root:0 \
-  --mtime="2023-04-06 00:00:00" \
+  --mtime="${mtime}" \
   -cvf - llvm \
   | zstd -18 - -o llvm.tar.zst
