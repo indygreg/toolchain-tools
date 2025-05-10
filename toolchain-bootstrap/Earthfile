@@ -225,11 +225,11 @@ download-ninja-linux-x86-64:
     ninja.zip
   SAVE ARTIFACT ninja.zip
 
-download-openssl-1.1:
+download-openssl-3.0:
   FROM +image-download
   RUN secure-download.sh \
-    https://www.openssl.org/source/openssl-1.1.1v.tar.gz \
-    d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0 \
+    https://github.com/openssl/openssl/releases/download/openssl-3.0.16/openssl-3.0.16.tar.gz \
+    57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86 \
     openssl.tar.gz
   SAVE ARTIFACT openssl.tar.gz
 
@@ -315,10 +315,10 @@ gcc-15-x86-64-linux:
   SAVE ARTIFACT /build/out-install/toolchain install
   SAVE ARTIFACT /build/out-support support
 
-openssl-1.1-x86-64-linux:
+openssl-3.0-x86-64-linux:
   ARG PARALLEL=16
   FROM +image-debian-jessie --install_packages="build-essential"
-  COPY +download-openssl-1.1/openssl.tar.gz /build/
+  COPY +download-openssl-3.0/openssl.tar.gz /build/
   COPY scripts/openssl-build.sh /build/
   RUN PARALLEL=${PARALLEL} /build/openssl-build.sh
   SAVE ARTIFACT /build/out/toolchain install
@@ -335,7 +335,7 @@ cpython-x86-64-linux:
   ARG PARALLEL=16
   FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
   COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
-  COPY +openssl-1.1-x86-64-linux/install /toolchain
+  COPY +openssl-3.0-x86-64-linux/install /toolchain
   COPY +download-cpython/cpython.tar.xz /build/
   COPY scripts/cpython-build.sh /build/
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
