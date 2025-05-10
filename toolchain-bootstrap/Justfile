@@ -1,6 +1,6 @@
 # An LLVM+Clang toolchain using GNU libraries and runtimes.
-llvm-gnu-x86-64-linux:
-  earthly +llvm-gnu-x86-64-linux
+llvm-gnu-linux-x86-64:
+  earthly --platform linux/amd64 +llvm-gnu-linux-x86-64
 
 # An LLVM+Clang toolchain for macOS targeting the native host.
 _apple-native tool:

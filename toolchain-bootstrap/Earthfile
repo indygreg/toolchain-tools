@@ -473,7 +473,7 @@ llvm-gnu-linux-build:
   SAVE ARTIFACT /build/out/toolchain install
 
 # An LLVM toolchain using GNU runtime libraries that runs on Linux x86-64.
-llvm-gnu-x86-64-linux:
+llvm-gnu-linux-x86-64:
   ARG EARTHLY_SOURCE_DATE_EPOCH
   FROM +image-package
   COPY +gcc-15-linux/support /build/gcc-support/
