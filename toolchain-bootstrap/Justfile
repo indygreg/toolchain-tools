@@ -2,6 +2,9 @@
 llvm-gnu-linux-x86-64:
   earthly --platform linux/amd64 +llvm-gnu-linux-x86-64
 
+llvm-gnu-linux-aarch64:
+  earthly --platform linux/arm64 +llvm-gnu-linux-aarch64
+
 # An LLVM+Clang toolchain for macOS targeting the native host.
 _apple-native tool:
   #!/usr/bin/env bash

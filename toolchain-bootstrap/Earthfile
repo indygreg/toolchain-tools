@@ -492,3 +492,14 @@ llvm-gnu-linux-x86-64:
   RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=15 /build/llvm-assemble-toolchain.sh
   SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
   SAVE ARTIFACT /build/llvm install
+
+# An LLVM toolchain using GNU runtime libraries that runs on Linux aarch64.
+llvm-gnu-linux-aarch64:
+  ARG EARTHLY_SOURCE_DATE_EPOCH
+  FROM +image-package
+  COPY +gcc-15-linux/support /build/gcc-support/
+  COPY +llvm-gnu-linux-build/install /build/llvm/
+  COPY scripts/llvm-assemble-toolchain.sh /build/
+  RUN GNU_TARGET=aarch64-linux-gnu GCC_VERSION=15 /build/llvm-assemble-toolchain.sh
+  SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-aarch64-unknown-linux-gnu.tar.zst
+  SAVE ARTIFACT /build/llvm install
