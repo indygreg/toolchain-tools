@@ -127,13 +127,13 @@ download-gcc-10:
     gcc-10.tar.xz
   SAVE ARTIFACT gcc-10.tar.xz
 
-download-gcc-14:
+download-gcc-15:
   FROM +image-download
   RUN secure-download.sh \
-    https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz \
-    a7b39bc69cbf9e25826c5a60ab26477001f7c08d85cec04bc0e29cabed6f3cc9 \
-    gcc-14.tar.xz
-  SAVE ARTIFACT gcc-14.tar.xz
+    https://ftp.gnu.org/gnu/gcc/gcc-15.1.0/gcc-15.1.0.tar.xz \
+    e2b09ec21660f01fecffb715e0120265216943f038d0e48a9868713e54f06cea \
+    gcc-15.tar.xz
+  SAVE ARTIFACT gcc-15.tar.xz
 
 download-gmp-6.1:
   FROM +image-download
@@ -284,12 +284,12 @@ binutils-x86-64-linux:
     /build/binutils-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-gcc-14-x86-64-linux:
+gcc-15-x86-64-linux:
   ARG PARALLEL=16
   FROM +image-gnu-build
   COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
   COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
-  COPY +download-gcc-14/gcc-14.tar.xz /build/
+  COPY +download-gcc-15/gcc-15.tar.xz /build/
   COPY +download-gmp-6.2/gmp-6.2.tar.xz /build/
   COPY +download-isl-0.24/isl-0.24.tar.bz2 /build/
   COPY +download-mpc-1.2/mpc-1.2.tar.gz /build/
@@ -298,7 +298,7 @@ gcc-14-x86-64-linux:
   COPY +gcc-10-x86-64-linux/install /toolchain
   COPY scripts/gcc-build-x86-64-linux.sh /build/gcc-build.sh
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
-    GCC_VERSION=14 GMP_VERSION=6.2 ISL_VERSION=0.24 MPC_VERSION=1.2 MPFR_VERSION=4.1 \
+    GCC_VERSION=15 GMP_VERSION=6.2 ISL_VERSION=0.24 MPC_VERSION=1.2 MPFR_VERSION=4.1 \
     BUILD_CC=/toolchain/bin/gcc BUILD_CXX=/toolchain/bin/g++ \
     PARALLEL=${PARALLEL} \
     /build/gcc-build.sh
@@ -343,7 +343,7 @@ clang-bootstrap-x86-64-linux:
   COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
   COPY +download-ninja-linux-x86-64/ninja.zip /build/
   COPY +binutils-x86-64-linux/install /toolchain/
-  COPY +gcc-14-x86-64-linux/install /toolchain/
+  COPY +gcc-15-x86-64-linux/install /toolchain/
   COPY +cpython-x86-64-linux/install /toolchain/
   COPY scripts/clang-bootstrap.sh /build/
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
@@ -363,7 +363,7 @@ llvm-gnu-x86-64-linux-build:
   COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
   COPY +download-ninja-linux-x86-64/ninja.zip /build/
   COPY +binutils-x86-64-linux/install /toolchain/
-  COPY +gcc-14-x86-64-linux/support /toolchain/
+  COPY +gcc-15-x86-64-linux/support /toolchain/
   FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux zstd-x86-64-linux
     COPY +$toolchain/install /toolchain/
   END
@@ -377,9 +377,9 @@ llvm-gnu-x86-64-linux-build:
 # An LLVM toolchain using GNU runtime libraries that runs on Linux x86-64.
 llvm-gnu-x86-64-linux:
   FROM +image-package
-  COPY +gcc-14-x86-64-linux/support /build/gcc-support/
+  COPY +gcc-15-x86-64-linux/support /build/gcc-support/
   COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/
   COPY scripts/llvm-assemble-toolchain.sh /build/
-  RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=14 /build/llvm-assemble-toolchain.sh
+  RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=15 /build/llvm-assemble-toolchain.sh
   SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
   SAVE ARTIFACT /build/llvm install
