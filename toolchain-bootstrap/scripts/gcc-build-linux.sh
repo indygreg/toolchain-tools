@@ -40,11 +40,21 @@ popd
 mkdir gcc-objdir
 pushd gcc-objdir
 
+if [ "$(uname -m)" = "x86_64" ]; then
+  triple="x86_64-linux-gnu"
+  configureextra="--enable-multiarch --with-arch-32=i686 --with-abi=m64 --enable-multilib --with-multilib-list=m32,m64 --with-tune=generic"
+  libdirs="lib32 lib64"
+else
+  triple="aarch64-linux-gnu"
+  configureextra="--enable-multiarch"
+  libdirs="lib64"
+fi
+
 # --enable-gold=default --enable-ld installs gold as ld.gold and ld and ld as ld.bfd.
 CC="sccache ${BUILD_CC}" \
 CXX="sccache ${BUILD_CXX}" \
     ../gcc/configure \
-    --host=x86_64-linux-gnu \
+    --host=${triple} \
     --prefix=/toolchain \
     --enable-gold=default \
     --enable-ld \
@@ -54,14 +64,8 @@ CXX="sccache ${BUILD_CXX}" \
     --enable-plugin \
     --enable-default-pie \
     --enable-languages=c,c++ \
-    --enable-multiarch \
-    --with-arch-32=i686 \
-    --with-abi=m64 \
-    --with-multilib-list=m32,m64 \
-    --enable-multilib \
-    --with-tune=generic \
     --with-gcc-major-version-only \
-    ${EXTRA_CONFIGURE_ARGS}
+    ${configureextra} ${EXTRA_CONFIGURE_ARGS}
 
 time make -j ${PARALLEL} STAGE_CC_WRAPPER=sccache-wrapper.sh
 time make -j ${PARALLEL} install DESTDIR=/build/out-install
@@ -71,7 +75,7 @@ time make -j ${PARALLEL} install DESTDIR=/build/out-install
 mkdir -p /build/out-support/lib
 cp -a /build/out-install/toolchain/include /build/out-support/
 cp -a /build/out-install/toolchain/lib/gcc /build/out-support/lib/
-for lib in lib32 lib64; do
+for lib in ${libdirs}; do
     cp -a /build/out-install/toolchain/${lib} /build/out-support/
 done
 
