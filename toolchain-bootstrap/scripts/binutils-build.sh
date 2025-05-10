@@ -16,14 +16,19 @@ popd
 mkdir binutils-objdir
 pushd binutils-objdir
 
-# gprofng requires a bison newer than what we have. So just disable it.
+if [ "$(uname -m)" = "x86_64" ]; then
+  triple="x86_64-unknown-linux-gnu"
+else
+  triple="aarch64-unknown-linux-gnu"
+fi
 
+# gprofng requires a bison newer than what we have. So just disable it.
 STAGE_CC_WRAPPER=sccache \
 CC="sccache ${BUILD_CC}" \
 CXX="sccache ${BUILD_CXX}" \
 LDFLAGS="-static-libgcc -static-libstdc++" \
     ../binutils/configure \
-    --build=x86_64-unknown-linux-gnu \
+    --build=${triple} \
     --prefix=/toolchain \
     --enable-gold=default \
     --enable-gprofng=no \
