@@ -10,9 +10,15 @@ mkdir openssl
 pushd openssl
 tar --strip-components=1 -xf ../openssl.tar.gz
 
+if [ "$(uname -m)" = "x86_64" ]; then
+  target="linux-x86_64"
+else
+  target="linux-aarch64"
+fi
+
 /usr/bin/perl ./Configure \
   --prefix=/toolchain \
-  linux-x86_64 \
+  ${target} \
   no-shared \
   no-tests \
   --openssldir=/etc/ssl
