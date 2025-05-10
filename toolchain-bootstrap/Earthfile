@@ -124,8 +124,8 @@ download-cmake-linux-x86-64:
 download-cpython:
   FROM +image-download
   RUN secure-download.sh \
-    https://www.python.org/ftp/python/3.11.7/Python-3.11.7.tar.xz \
-    18e1aa7e66ff3a58423d59ed22815a6954e53342122c45df20c96877c062b9b7 \
+    https://www.python.org/ftp/python/3.13.3/Python-3.13.3.tar.xz \
+    40f868bcbdeb8149a3149580bb9bfd407b3321cd48f0be631af955ac92c0e041 \
     cpython.tar.xz
   SAVE ARTIFACT cpython.tar.xz
 
