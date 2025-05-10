@@ -51,16 +51,16 @@ DOWNLOADS = [
 
 SCCACHE_AARCH64 = {
     "name": "sccache",
-    "url": "https://github.com/mozilla/sccache/releases/download/v0.8.0/sccache-v0.8.0-aarch64-apple-darwin.tar.gz",
-    "sha256": "9439be7bd81ee86af6e8d866fd129150aefe24c78d857de9c99d57845187fc7e",
-    "version": "0.8.0",
+    "url": "https://github.com/mozilla/sccache/releases/download/v0.10.0/sccache-v0.10.0-aarch64-apple-darwin.tar.gz",
+    "sha256": "5aba39252e2efa26bd76144f87ac59787d60fe567ab785e27e2a8c8190892eac",
+    "version": "0.10.0",
 }
 
 SCCACHE_X86_64 = {
     "name": "sccache",
-    "url": "https://github.com/mozilla/sccache/releases/download/v0.8.0/sccache-v0.8.0-x86_64-apple-darwin.tar.gz",
-    "sha256": "d1b871daf7f96f8d01c50746e588d50e2c54559c0de508257db3cb55b7fb8ec0",
-    "version": "0.8.0",
+    "url": "https://github.com/mozilla/sccache/releases/download/v0.10.0/sccache-v0.10.0-x86_64-apple-darwin.tar.gz",
+    "sha256": "6d4a77802ec83607478df7b6338be28171e65e58a38a49497ebec1fbb300fce4",
+    "version": "0.10.0",
 }
 
 if platform.mac_ver()[2] == "arm64":

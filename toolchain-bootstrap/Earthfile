@@ -87,8 +87,8 @@ deb-download:
 sccache-x86-64-linux:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/mozilla/sccache/releases/download/v0.8.0/sccache-v0.8.0-x86_64-unknown-linux-musl.tar.gz \
-    2e0e7df61bc7dcf61fd65c1b345d05cd1f832598a15c6f42e7e21f86b8d39b1f \
+    https://github.com/mozilla/sccache/releases/download/v0.10.0/sccache-v0.10.0-x86_64-unknown-linux-musl.tar.gz \
+    1fbb35e135660d04a2d5e42b59c7874d39b3deb17de56330b25b713ec59f849b \
     sccache.tar.gz
   RUN tar --strip-components=1 -xvf sccache.tar.gz
   RUN chmod +x sccache
