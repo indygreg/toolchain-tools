@@ -414,7 +414,7 @@ cpython-linux:
   SAVE ARTIFACT /build/out/toolchain install
 
 # A bootstrapped Clang targeting the current architecture.
-clang-bootstrap-x86-64-linux:
+clang-bootstrap-linux:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
   ARG TARGETARCH
@@ -432,7 +432,7 @@ clang-bootstrap-x86-64-linux:
     /build/clang-bootstrap.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-llvm-gnu-x86-64-linux-build:
+llvm-gnu-linux-build:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
   ARG TARGETARCH
@@ -446,7 +446,7 @@ llvm-gnu-x86-64-linux-build:
   COPY +download-ninja-linux-${TARGETARCH}/ninja.zip /build/
   COPY +binutils-linux/install /toolchain/
   COPY +gcc-15-linux/support /toolchain/
-  FOR toolchain IN cpython-linux clang-bootstrap-x86-64-linux zstd-linux
+  FOR toolchain IN cpython-linux clang-bootstrap-linux zstd-linux
     COPY +$toolchain/install /toolchain/
   END
   COPY scripts/clang-gnu-stage2.sh /build/
@@ -460,7 +460,7 @@ llvm-gnu-x86-64-linux:
   ARG EARTHLY_SOURCE_DATE_EPOCH
   FROM +image-package
   COPY +gcc-15-linux/support /build/gcc-support/
-  COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/
+  COPY +llvm-gnu-linux-build/install /build/llvm/
   COPY scripts/llvm-assemble-toolchain.sh /build/
   RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=15 /build/llvm-assemble-toolchain.sh
   SAVE ARTIFACT /build/llvm.tar.zst AS LOCAL build/llvm-gnu_only-x86_64-unknown-linux-gnu.tar.zst
