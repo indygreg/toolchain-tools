@@ -1,6 +1,7 @@
 VERSION 0.8
 
 image-debian-jessie:
+  # skopeo inspect docker://docker.io/library/debian:jessie
   ARG IMAGE_SHA256=32ad5050caffb2c7e969dac873bce2c370015c2256ff984b70c1c08b3a2816a0
   # This is the last published snapshot of Jessie.
   ARG DEBIAN_SNAPSHOT=20230322T152120Z
@@ -36,8 +37,9 @@ image-debian-jessie:
   USER build:build
 
 image-debian-bullseye:
-  ARG IMAGE_SHA256=d52921d97310d0bd48dab928548ef539d5c88c743165754c57cfad003031386c
-  ARG DEBIAN_SNAPSHOT=20240107T024933Z
+  # skopeo inspect docker://docker.io/library/debian:bullseye
+  ARG IMAGE_SHA256=2a7f95bcf104c8410bf4d3b13c52f6e0e4334bb2edf8d80c7f9881e49447effe
+  ARG DEBIAN_SNAPSHOT=20250510T145612Z
   FROM debian@sha256:${IMAGE_SHA256}
   RUN groupadd -g 1000 build && \
     useradd -u 1000 -g 1000 -d /build -s /bin/bash -m build && \
