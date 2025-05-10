@@ -97,11 +97,19 @@ sccache-x86-64-linux:
   SAVE ARTIFACT sccache
 
 # binutils 2.42 has issues compiling on legacy GCC.
-download-binutils:
+download-binutils-2.41:
   FROM +image-download
   RUN secure-download.sh \
     https://ftp.gnu.org/gnu/binutils/binutils-2.41.tar.xz \
     ae9a5789e23459e59606e6714723f2d3ffc31c03174191ef0d015bdf06007450 \
+    binutils.tar.xz
+  SAVE ARTIFACT binutils.tar.xz
+
+download-binutils:
+  FROM +image-download
+  RUN secure-download.sh \
+    https://ftp.gnu.org/gnu/binutils/binutils-with-gold-2.44.tar.xz \
+    67be9198476cc37436e2801de649f4ad80bf0d02430d86aff63c6b59b6e23987 \
     binutils.tar.xz
   SAVE ARTIFACT binutils.tar.xz
 
@@ -241,7 +249,7 @@ clone-llvm:
 binutils-initial-x86-64-linux:
   FROM +image-gnu-build
   COPY +sccache-x86-64-linux/sccache /usr/local/bin/
-  COPY +download-binutils/binutils.tar.xz /build/
+  COPY +download-binutils-2.41/binutils.tar.xz /build/
   COPY scripts/binutils-build.sh /build/binutils-build.sh
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
     BUILD_CC=/usr/bin/gcc \
@@ -271,7 +279,7 @@ gcc-10-x86-64-linux:
   SAVE ARTIFACT /build/out-support support
 
 # We need to build binutils with a modern GCC to avoid a relocation error with
-# old binutils from base image.
+# old binutils from base image. And modern GCC is required for binutils >2.42.
 binutils-x86-64-linux:
   FROM +image-gnu-build
   COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
