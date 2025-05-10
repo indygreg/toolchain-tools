@@ -386,7 +386,13 @@ gcc-15-linux:
 
 openssl-3.0-linux:
   ARG PARALLEL=16
+  ARG TARGETARCH
+  FROM +image-debian-bullseye
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="build-essential"
+  ELSE
   FROM +image-debian-jessie --install_packages="build-essential"
+  END
   COPY +download-openssl-3.0/openssl.tar.gz /build/
   COPY scripts/openssl-build.sh /build/
   RUN PARALLEL=${PARALLEL} /build/openssl-build.sh
@@ -394,7 +400,13 @@ openssl-3.0-linux:
 
 zstd-linux:
   ARG PARALLEL=16
+  ARG TARGETARCH
+  FROM +image-debian-bullseye
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="build-essential"
+  ELSE
   FROM +image-debian-jessie --install_packages="build-essential"
+  END
   COPY +download-zstd/zstd.tar.gz /build/
   COPY scripts/zstd-build.sh /build/
   RUN PARALLEL=${PARALLEL} /build/zstd-build.sh
@@ -403,7 +415,12 @@ zstd-linux:
 cpython-linux:
   ARG PARALLEL=16
   ARG TARGETARCH
+  FROM +image-debian-bullseye
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
+  ELSE
   FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
+  END
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +openssl-3.0-linux/install /toolchain
   COPY +download-cpython/cpython.tar.xz /build/
