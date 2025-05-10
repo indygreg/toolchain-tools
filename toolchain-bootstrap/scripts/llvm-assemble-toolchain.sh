@@ -15,7 +15,9 @@ cp -a gcc-support/include/c++ llvm/include/
 
 # Copy GNU libraries into appropriate location.
 cp -a gcc-support/lib64/* llvm/lib/gcc/${GNU_TARGET}/${GCC_VERSION}/
-cp -a gcc-support/lib32/* llvm/lib/gcc/${GNU_TARGET}/${GCC_VERSION}/32/
+if [ -d gcc-support/lib32 ]; then
+  cp -a gcc-support/lib32/* llvm/lib/gcc/${GNU_TARGET}/${GCC_VERSION}/32/
+fi
 
 # Symlink the native libraries where LLVM binaries can find them.
 ln -s gcc/${GNU_TARGET}/${GCC_VERSION}/libstdc++.so.6 llvm/lib/libstdc++.so.6
