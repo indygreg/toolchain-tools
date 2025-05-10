@@ -220,8 +220,8 @@ download-mpfr-4.1:
 download-ninja-linux-x86-64:
   FROM +image-download
   RUN secure-download.sh \
-    https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip \
-    763464859c7ef2ea3a0a10f4df40d2025d3bb9438fcb1228404640410c0ec22d \
+    https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip \
+    6f98805688d19672bd699fbbfa2c2cf0fc054ac3df1f0e6a47664d963d530255 \
     ninja.zip
   SAVE ARTIFACT ninja.zip
 
