@@ -80,7 +80,7 @@ image-gnu-build:
 image-package:
   FROM +image-debian-bullseye --install_packages="tar zstd"
 
-sccache-x86-64-linux:
+sccache-linux-amd64:
   FROM +image-download
   RUN secure-download.sh \
     https://github.com/mozilla/sccache/releases/download/v0.10.0/sccache-v0.10.0-x86_64-unknown-linux-musl.tar.gz \
@@ -107,7 +107,7 @@ download-binutils:
     binutils.tar.xz
   SAVE ARTIFACT binutils.tar.xz
 
-download-cmake-linux-x86-64:
+download-cmake-linux-amd64:
   FROM +image-download
   RUN secure-download.sh \
     https://github.com/Kitware/CMake/releases/download/v3.31.7/cmake-3.31.7-linux-x86_64.tar.gz \
@@ -211,7 +211,7 @@ download-mpfr-4.1:
     mpfr-4.1.tar.bz2
   SAVE ARTIFACT mpfr-4.1.tar.bz2
 
-download-ninja-linux-x86-64:
+download-ninja-linux-amd64:
   FROM +image-download
   RUN secure-download.sh \
     https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip \
@@ -241,8 +241,9 @@ clone-llvm:
   SAVE ARTIFACT llvm-project
 
 binutils-initial-x86-64-linux:
+  ARG TARGETARCH
   FROM +image-gnu-build
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/
   COPY +download-binutils-2.41/binutils.tar.xz /build/
   COPY scripts/binutils-build.sh /build/binutils-build.sh
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
@@ -253,8 +254,9 @@ binutils-initial-x86-64-linux:
 
 gcc-10-x86-64-linux:
   ARG PARALLEL=16
+  ARG TARGETARCH
   FROM +image-gnu-build
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
   COPY +binutils-initial-x86-64-linux/install /toolchain/
   COPY +download-gcc-10/gcc-10.tar.xz /build/
@@ -275,8 +277,9 @@ gcc-10-x86-64-linux:
 # We need to build binutils with a modern GCC to avoid a relocation error with
 # old binutils from base image. And modern GCC is required for binutils >2.42.
 binutils-x86-64-linux:
+  ARG TARGETARCH
   FROM +image-gnu-build
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-binutils/binutils.tar.xz /build/
   COPY +binutils-initial-x86-64-linux/install /toolchain
   COPY +gcc-10-x86-64-linux/install /toolchain
@@ -290,8 +293,9 @@ binutils-x86-64-linux:
 
 gcc-15-x86-64-linux:
   ARG PARALLEL=16
+  ARG TARGETARCH
   FROM +image-gnu-build
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
   COPY +download-gcc-15/gcc-15.tar.xz /build/
   COPY +download-gmp-6.2/gmp-6.2.tar.xz /build/
@@ -327,8 +331,9 @@ zstd-x86-64-linux:
 
 cpython-x86-64-linux:
   ARG PARALLEL=16
+  ARG TARGETARCH
   FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +openssl-3.0-x86-64-linux/install /toolchain
   COPY +download-cpython/cpython.tar.xz /build/
   COPY scripts/cpython-build.sh /build/
@@ -341,11 +346,12 @@ cpython-x86-64-linux:
 clang-bootstrap-x86-64-linux:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
+  ARG TARGETARCH
   FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-llvm/llvm.tar.xz /build/
-  COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
-  COPY +download-ninja-linux-x86-64/ninja.zip /build/
+  COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
+  COPY +download-ninja-linux-${TARGETARCH}/ninja.zip /build/
   COPY +binutils-x86-64-linux/install /toolchain/
   COPY +gcc-15-x86-64-linux/install /toolchain/
   COPY +cpython-x86-64-linux/install /toolchain/
@@ -358,14 +364,15 @@ clang-bootstrap-x86-64-linux:
 llvm-gnu-x86-64-linux-build:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
+  ARG TARGETARCH
   # We need compiler-rt to find the libc statically linked object files (like crt1.o)
   # for i386. Getting this to work reliably is finicky. Using a multiarch system
   # with the multiarch install of i386 makes this "just work."
   FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
-  COPY +sccache-x86-64-linux/sccache /usr/local/bin/sccache
+  COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-llvm/llvm.tar.xz /build/
-  COPY +download-cmake-linux-x86-64/cmake.tar.gz /build/
-  COPY +download-ninja-linux-x86-64/ninja.zip /build/
+  COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
+  COPY +download-ninja-linux-${TARGETARCH}/ninja.zip /build/
   COPY +binutils-x86-64-linux/install /toolchain/
   COPY +gcc-15-x86-64-linux/support /toolchain/
   FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux zstd-x86-64-linux
