@@ -36,6 +36,41 @@ image-debian-jessie:
   COPY scripts/secure-download.sh /usr/local/bin/
   USER build:build
 
+image-debian-stretch:
+  # skopeo inspect docker://docker.io/library/debian:stretch
+  ARG IMAGE_SHA256=c5c5200ff1e9c73ffbf188b4a67eb1c91531b644856b4aefe86a58d2f0cb05be
+  # This is the last snapshot containing stretch.
+  ARG DEBIAN_SNAPSHOT=20230423T032736Z
+  FROM debian@sha256:${IMAGE_SHA256}
+  RUN groupadd -g 1000 build && \
+    useradd -u 1000 -g 1000 -d /build -s /bin/bash -m build && \
+    chown -R build:build /build /etc/ld.so.conf.d /usr/local
+  ENV HOME=/build \
+    SHELL=/bin/bash \
+    USER=build \
+    LOGNAME=build \
+    HOSTNAME=builder \
+    DEBIAN_FRONTEND=noninteractive
+  CMD ["/bin/bash", "--login"]
+  WORKDIR '/build'
+  RUN for s in debian_stretch debian_stretch-updates debian-security_stretch/updates; do \
+    echo "deb http://snapshot.debian.org/archive/${s%_*}/${DEBIAN_SNAPSHOT}/ ${s#*_} main"; \
+    done > /etc/apt/sources.list && \
+    ( echo 'quiet "true";'; \
+      echo 'APT::Get::Assume-Yes "true";'; \
+      echo 'APT::Install-Recommends "false";'; \
+      echo 'Acquire::Check-Valid-Until "false";'; \
+      echo 'Acquire::Retries "5";'; \
+    ) > /etc/apt/apt.conf.d/99portable-clang
+  RUN apt-get update
+  RUN apt-get install ca-certificates
+  ARG install_packages
+  IF [ -n "${install_packages}" ]
+    RUN apt-get install ${install_packages}
+  END
+  COPY scripts/secure-download.sh /usr/local/bin/
+  USER build:build
+
 image-debian-bullseye:
   # skopeo inspect docker://docker.io/library/debian:bullseye
   ARG IMAGE_SHA256=2a7f95bcf104c8410bf4d3b13c52f6e0e4334bb2edf8d80c7f9881e49447effe
@@ -75,7 +110,17 @@ image-download:
   FROM +image-debian-bullseye --install_packages="coreutils curl git"
 
 image-gnu-build:
+  ARG TARGETARCH
+  FROM +image-debian-bullseye
+  # We want to produce ARMv8 binaries and Stretch is first release with ARMv8
+  # images. We could probably make this work. But it's a bit of effort. We doubt
+  # anyway is running ARMv8 on such old Linux distros and need the ancient glibc
+  # support.
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="autoconf automake bison build-essential gawk libtool gcc make texinfo xz-utils unzip"
+  ELSE
   FROM +image-debian-jessie --install_packages="autoconf automake bison build-essential gawk libtool gcc gcc-multilib make texinfo xz-utils unzip"
+  END
 
 image-package:
   FROM +image-debian-bullseye --install_packages="tar zstd"
