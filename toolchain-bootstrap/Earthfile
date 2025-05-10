@@ -80,12 +80,6 @@ image-gnu-build:
 image-package:
   FROM +image-debian-bullseye --install_packages="tar zstd"
 
-deb-download:
-  ARG --required package
-  FROM +image-debian-jessie
-  RUN apt-get download $package
-  SAVE ARTIFACT $package*.deb deb
-
 sccache-x86-64-linux:
   FROM +image-download
   RUN secure-download.sh \
