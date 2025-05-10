@@ -27,8 +27,6 @@ export PATH=${ROOT}/CMake.app/Contents/bin:${PATH}
 mkdir llvm
 pushd llvm
 tar --strip-components=1 -xf ${ROOT}/llvm-project-${LLVM_VERSION}.src.tar.xz
-patch -p1 < ${ROOT}/bolt-computed-gotos.patch
-patch -p1 < ${ROOT}/tail-duplicator-computed-gotos.patch
 popd
 
 mkdir llvm-objdir
