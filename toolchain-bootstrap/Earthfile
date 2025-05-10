@@ -435,7 +435,12 @@ clang-bootstrap-linux:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
   ARG TARGETARCH
+  FROM +image-debian-bullseye
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="libc6-dev patch tar xz-utils unzip zlib1g-dev"
+  ELSE
   FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
+  END
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-llvm/llvm.tar.xz /build/
   COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
@@ -453,10 +458,15 @@ llvm-gnu-linux-build:
   ARG PARALLEL_NINJA=64
   ARG NINJA_MAX_LOAD=32
   ARG TARGETARCH
+  FROM +image-debian-bullseye
+  IF [ "${TARGETARCH}" = "arm64" ]
+  FROM +image-debian-stretch --install_packages="libc6-dev patch tar xz-utils unzip zlib1g-dev"
+  ELSE
   # We need compiler-rt to find the libc statically linked object files (like crt1.o)
   # for i386. Getting this to work reliably is finicky. Using a multiarch system
   # with the multiarch install of i386 makes this "just work."
   FROM +image-debian-jessie --install_packages="libc6-dev libc6-dev:i386 patch tar xz-utils unzip zlib1g-dev"
+  END
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-llvm/llvm.tar.xz /build/
   COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
