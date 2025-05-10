@@ -240,7 +240,7 @@ clone-llvm:
   RUN git clone --no-checkout --shallow-since=2022-01-01 https://github.com/llvm/llvm-project.git
   SAVE ARTIFACT llvm-project
 
-binutils-initial-x86-64-linux:
+binutils-initial-linux:
   ARG TARGETARCH
   FROM +image-gnu-build
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/
@@ -252,13 +252,13 @@ binutils-initial-x86-64-linux:
     /build/binutils-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-gcc-10-x86-64-linux:
+gcc-10-linux:
   ARG PARALLEL=16
   ARG TARGETARCH
   FROM +image-gnu-build
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY scripts/sccache-wrapper.sh /usr/local/bin/sccache-wrapper.sh
-  COPY +binutils-initial-x86-64-linux/install /toolchain/
+  COPY +binutils-initial-linux/install /toolchain/
   COPY +download-gcc-10/gcc-10.tar.xz /build/
   COPY +download-gmp-6.1/gmp-6.1.tar.xz /build/
   COPY +download-isl-0.18/isl-0.18.tar.bz2 /build/
@@ -276,13 +276,13 @@ gcc-10-x86-64-linux:
 
 # We need to build binutils with a modern GCC to avoid a relocation error with
 # old binutils from base image. And modern GCC is required for binutils >2.42.
-binutils-x86-64-linux:
+binutils-linux:
   ARG TARGETARCH
   FROM +image-gnu-build
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
   COPY +download-binutils/binutils.tar.xz /build/
-  COPY +binutils-initial-x86-64-linux/install /toolchain
-  COPY +gcc-10-x86-64-linux/install /toolchain
+  COPY +binutils-initial-linux/install /toolchain
+  COPY +gcc-10-linux/install /toolchain
   COPY scripts/binutils-build.sh /build/binutils-build.sh
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
     BUILD_CC=/toolchain/bin/gcc \
@@ -291,7 +291,7 @@ binutils-x86-64-linux:
     /build/binutils-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-gcc-15-x86-64-linux:
+gcc-15-linux:
   ARG PARALLEL=16
   ARG TARGETARCH
   FROM +image-gnu-build
@@ -302,8 +302,8 @@ gcc-15-x86-64-linux:
   COPY +download-isl-0.24/isl-0.24.tar.bz2 /build/
   COPY +download-mpc-1.2/mpc-1.2.tar.gz /build/
   COPY +download-mpfr-4.1/mpfr-4.1.tar.bz2 /build/
-  COPY +binutils-x86-64-linux/install /toolchain
-  COPY +gcc-10-x86-64-linux/install /toolchain
+  COPY +binutils-linux/install /toolchain
+  COPY +gcc-10-linux/install /toolchain
   COPY scripts/gcc-build-linux.sh /build/gcc-build.sh
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
     GCC_VERSION=15 GMP_VERSION=6.2 ISL_VERSION=0.24 MPC_VERSION=1.2 MPFR_VERSION=4.1 \
@@ -313,7 +313,7 @@ gcc-15-x86-64-linux:
   SAVE ARTIFACT /build/out-install/toolchain install
   SAVE ARTIFACT /build/out-support support
 
-openssl-3.0-x86-64-linux:
+openssl-3.0-linux:
   ARG PARALLEL=16
   FROM +image-debian-jessie --install_packages="build-essential"
   COPY +download-openssl-3.0/openssl.tar.gz /build/
@@ -321,7 +321,7 @@ openssl-3.0-x86-64-linux:
   RUN PARALLEL=${PARALLEL} /build/openssl-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-zstd-x86-64-linux:
+zstd-linux:
   ARG PARALLEL=16
   FROM +image-debian-jessie --install_packages="build-essential"
   COPY +download-zstd/zstd.tar.gz /build/
@@ -329,12 +329,12 @@ zstd-x86-64-linux:
   RUN PARALLEL=${PARALLEL} /build/zstd-build.sh
   SAVE ARTIFACT /build/out/toolchain install
 
-cpython-x86-64-linux:
+cpython-linux:
   ARG PARALLEL=16
   ARG TARGETARCH
   FROM +image-debian-jessie --install_packages="autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev"
   COPY +sccache-linux-${TARGETARCH}/sccache /usr/local/bin/sccache
-  COPY +openssl-3.0-x86-64-linux/install /toolchain
+  COPY +openssl-3.0-linux/install /toolchain
   COPY +download-cpython/cpython.tar.xz /build/
   COPY scripts/cpython-build.sh /build/
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
@@ -352,9 +352,9 @@ clang-bootstrap-x86-64-linux:
   COPY +download-llvm/llvm.tar.xz /build/
   COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
   COPY +download-ninja-linux-${TARGETARCH}/ninja.zip /build/
-  COPY +binutils-x86-64-linux/install /toolchain/
-  COPY +gcc-15-x86-64-linux/install /toolchain/
-  COPY +cpython-x86-64-linux/install /toolchain/
+  COPY +binutils-linux/install /toolchain/
+  COPY +gcc-15-linux/install /toolchain/
+  COPY +cpython-linux/install /toolchain/
   COPY scripts/clang-bootstrap.sh /build/
   RUN --secret SCCACHE_REGION --secret SCCACHE_BUCKET --secret AWS_ACCESS_KEY_ID --secret AWS_SECRET_ACCESS_KEY \
     PARALLEL_NINJA=${PARALLEL_NINJA} NINJA_MAX_LOAD=${NINJA_MAX_LOAD} \
@@ -373,9 +373,9 @@ llvm-gnu-x86-64-linux-build:
   COPY +download-llvm/llvm.tar.xz /build/
   COPY +download-cmake-linux-${TARGETARCH}/cmake.tar.gz /build/
   COPY +download-ninja-linux-${TARGETARCH}/ninja.zip /build/
-  COPY +binutils-x86-64-linux/install /toolchain/
-  COPY +gcc-15-x86-64-linux/support /toolchain/
-  FOR toolchain IN cpython-x86-64-linux clang-bootstrap-x86-64-linux zstd-x86-64-linux
+  COPY +binutils-linux/install /toolchain/
+  COPY +gcc-15-linux/support /toolchain/
+  FOR toolchain IN cpython-linux clang-bootstrap-x86-64-linux zstd-linux
     COPY +$toolchain/install /toolchain/
   END
   COPY scripts/clang-gnu-stage2.sh /build/
@@ -388,7 +388,7 @@ llvm-gnu-x86-64-linux-build:
 llvm-gnu-x86-64-linux:
   ARG EARTHLY_SOURCE_DATE_EPOCH
   FROM +image-package
-  COPY +gcc-15-x86-64-linux/support /build/gcc-support/
+  COPY +gcc-15-linux/support /build/gcc-support/
   COPY +llvm-gnu-x86-64-linux-build/install /build/llvm/
   COPY scripts/llvm-assemble-toolchain.sh /build/
   RUN GNU_TARGET=x86_64-linux-gnu GCC_VERSION=15 /build/llvm-assemble-toolchain.sh
