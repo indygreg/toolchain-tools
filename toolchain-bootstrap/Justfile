@@ -1,9 +1,22 @@
+extra_args := if path_exists("secrets") == "true" { "--secret id=secrets,type=file" } else { "" }
+
 # An LLVM+Clang toolchain using GNU libraries and runtimes.
 llvm-gnu-linux-x86-64:
-  earthly --platform linux/amd64 +llvm-gnu-linux-x86-64
+  just _build_and_copy_gnu_linux x86_64 linux/amd64 jessie
 
 llvm-gnu-linux-aarch64:
-  earthly --platform linux/arm64 +llvm-gnu-linux-aarch64
+  just _build_and_copy_gnu_linux aarch64 linux/arm64 stretch
+
+_build_and_copy_gnu_linux arch platform base_image:
+   #!/usr/bin/env bash
+   set -euxo pipefail
+   export BUILDKIT_STEP_LOG_MAX_SIZE=-1
+   export BUILDKIT_STEP_LOG_MAX_SPEED=-1
+   mkdir -p build
+   docker buildx build {{extra_args}} --platform {{platform}} --build-arg BASE_IMAGE={{base_image}} --build-arg SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) --iidfile build/imageid.txt .
+   cid=$(docker create --rm $(cat build/imageid.txt))
+   docker cp ${cid}:/build/llvm.tar.zst build/llvm-gnu_only-{{arch}}-unknown-linux-gnu.tar.zst
+   docker rm -v ${cid}
 
 # An LLVM+Clang toolchain for macOS targeting the native host.
 _apple-native tool:

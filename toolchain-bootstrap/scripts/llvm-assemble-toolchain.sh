@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -exo pipefail
+
+export PATH=/toolchain/bin:$PATH
 
 # Remove some cruft that bloats the build.
 rm llvm/bin/c-index-test
@@ -26,7 +28,7 @@ ln -s gcc/${GNU_TARGET}/${GCC_VERSION}/libgcc_s.so.1 llvm/lib/libgcc_s.so.1
 # Make sure clang works.
 llvm/bin/clang -v
 
-mtime=$(date -d @${EARTHLY_SOURCE_DATE_EPOCH} "+%Y-%m-%d 00:00:00")
+mtime=$(date -d @${SOURCE_DATE_EPOCH} "+%Y-%m-%d 00:00:00")
 
 tar \
   --sort=name \

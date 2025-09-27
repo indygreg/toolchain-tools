@@ -1,6 +1,6 @@
 .idea/
 target/
 toolchain-bootstrap/.arg
-toolchain-bootstrap/.secret
+toolchain-bootstrap/secrets
 toolchain-bootstrap/build/
 toolchain-bootstrap/dist/

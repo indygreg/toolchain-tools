@@ -35,37 +35,19 @@ jobs:
 
       - uses: extractions/setup-just@v3
 
-      - name: Install Earthly
-        run: |
-          wget --progress=dot:mega https://github.com/earthly/earthly/releases/download/v0.8.4/earthly-linux-${{ matrix.build.gnuarch }} -O /usr/local/bin/earthly
-          chmod +x /usr/local/bin/earthly
-          /usr/local/bin/earthly bootstrap
-
-          mkdir -p ~/.earthly
-          cat > ~/.earthly/config.yml <<EOF
-          global:
-            buildkit_additional_args:
-            - -e
-            - BUILDKIT_STEP_LOG_MAX_SIZE=-1
-            - -e
-            - BUILDKIT_STEP_LOG_MAX_SPEED=-1
-          EOF
-
       - name: Build LLVM GNU Toolchain
         run: |
           cd toolchain-bootstrap
-          cat > .arg <<EOF
-          SCCACHE_S3_USE_SSL=1
-          PARALLEL=8
-          PARALLEL_NINJA=8
-          NINJA_MAX_LOAD=12
-          EOF
+          cat > secrets <<EOF
+          export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+          export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+          export SCCACHE_REGION=${SCCACHE_REGION}
+          export SCCACHE_BUCKET=${SCCACHE_BUCKET}
+          export SCCACHE_S3_USE_SSL=1
 
-          cat > .secret <<EOF
-          AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-          AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-          SCCACHE_REGION=${SCCACHE_REGION}
-          SCCACHE_BUCKET=${SCCACHE_BUCKET}
+          export PARALLEL=8
+          export PARALLEL_NINJA=8
+          export NINJA_MAX_LOAD=12
           EOF
 
           just llvm-gnu-linux-${{ matrix.build.ourarch }}

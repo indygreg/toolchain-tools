@@ -4,6 +4,13 @@ set -o errexit
 set -o pipefail
 set -x
 
+if [ -e /build/secrets ]; then
+  source /build/secrets
+fi
+
+export PATH=/toolchain/bin:$PATH
+echo /toolchain/lib64 > /etc/ld.so.conf.d/toolchain
+
 cd /build
 
 mkdir python
