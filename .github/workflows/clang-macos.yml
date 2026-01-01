@@ -27,7 +27,7 @@ jobs:
           cd toolchain-bootstrap
           just llvm-apple-native
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: toolchain-${{ matrix.runner }}
           path: toolchain-bootstrap/build/llvm-*-apple-darwin.tar.zst
