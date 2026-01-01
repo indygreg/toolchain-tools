@@ -29,12 +29,12 @@ jobs:
       # Prevent sccache server from stopping due to inactivity.
       SCCACHE_IDLE_TIMEOUT: '0'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af
         with:
           toolchain: ${{ matrix.rust_toolchain }}
           default: true
@@ -42,7 +42,7 @@ jobs:
           components: clippy
 
       - name: Cache crates.io Index
-        uses: actions/cache@v5
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
         with:
           path: |
             ~/.cargo/registry/index
@@ -99,7 +99,7 @@ jobs:
         run: |
           cargo test --workspace
 
-      - uses: actions-rs/clippy@master
+      - uses: actions-rs/clippy@9e02862195d5c88dabdda3c1e7fa53a45ed35ec1
         if: ${{ matrix.rust_toolchain == 'stable' || matrix.rust_toolchain == 'beta' }}
         env:
           RUSTC_WRAPPER: sccache

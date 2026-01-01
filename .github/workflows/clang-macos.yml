@@ -18,9 +18,9 @@ jobs:
       SCCACHE_REGION: us-west-2
       SCCACHE_BUCKET: toolchain-tools-sccache
     steps:
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
 
@@ -29,7 +29,7 @@ jobs:
           cd toolchain-bootstrap
           just llvm-apple-native
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: toolchain-${{ matrix.runner }}
           path: toolchain-bootstrap/build/llvm-*-apple-darwin.tar.zst

@@ -23,19 +23,19 @@ jobs:
       SCCACHE_BUCKET: toolchain-tools-sccache
       FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
 
       # We run out of disk when compiling unless we do this.
       - name: Free Disk Space
-        uses: jlumbroso/free-disk-space@v1.3.1
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         with:
           tool-cache: true
           docker-images: false
           swap-storage: false
 
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff
 
       - name: Build LLVM GNU Toolchain
         run: |
@@ -54,7 +54,7 @@ jobs:
 
           just llvm-gnu-linux-${{ matrix.build.ourarch }}
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: toolchain-linux-${{ matrix.build.ourarch }}
           path: |
