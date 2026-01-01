@@ -35,11 +35,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af
+      - uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c
         with:
           toolchain: ${{ matrix.rust_toolchain }}
-          default: true
-          profile: minimal
           components: clippy
 
       - name: Cache crates.io Index
@@ -100,12 +98,11 @@ jobs:
         run: |
           cargo test --workspace
 
-      - uses: actions-rs/clippy@9e02862195d5c88dabdda3c1e7fa53a45ed35ec1
-        if: ${{ matrix.rust_toolchain == 'stable' || matrix.rust_toolchain == 'beta' }}
+      - name: Run Clippy
         env:
           RUSTC_WRAPPER: sccache
-        with:
-          args: --workspace
+        run: |
+          cargo clippy --workspace --all-targets --all-features
 
       - name: Stop sccache
         run: |
