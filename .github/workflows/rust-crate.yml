@@ -15,7 +15,7 @@ jobs:
           - '1.85.0'
         os:
           - 'ubuntu-24.04'
-          - 'macos-13'
+          - 'macos-15'
           - 'windows-2022'
     continue-on-error: ${{ matrix.rust_toolchain == 'nightly' }}
     runs-on: ${{ matrix.os }}
