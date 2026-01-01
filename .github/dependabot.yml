@@ -9,3 +9,14 @@ updates:
       prefix: "ci"
     cooldown:
       default-days: 7
+
+  - package-ecosystem: "cargo"
+    directories:
+      - "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    commit-message:
+      prefix: "workspace: "
+    cooldown:
+      default-days: 7
