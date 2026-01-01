@@ -23,7 +23,7 @@ jobs:
       SCCACHE_BUCKET: toolchain-tools-sccache
       FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # We run out of disk when compiling unless we do this.
       - name: Free Disk Space

@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: extractions/setup-just@v3
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build LLVM Toolchain
         run: |
