@@ -21,6 +21,7 @@ into structs that convey the meaning of each invocation, such as whether we're
 invoking a compiler, linker, etc.
  */
 
+use std::fmt::Display;
 use {
     serde::Deserialize,
     serde_json::Value,
@@ -194,23 +195,24 @@ impl FromStr for ArgumentPrefix {
     }
 }
 
-impl ToString for ArgumentPrefix {
-    fn to_string(&self) -> String {
-        match self {
+impl Display for ArgumentPrefix {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
             Self::SingleDash => "-",
             Self::DoubleDash => "--",
             Self::SingleDashQuestion => "-?",
             Self::Slash => "/",
             Self::SlashQuestion => "/?",
         }
-        .to_string()
+            .to_string();
+        write!(f, "{}", s)
     }
 }
 
 impl ArgumentPrefix {
     /// Format the prefix with a given argument name after it.
     pub fn with_name(&self, name: &str) -> String {
-        format!("{}{}", self.to_string(), name)
+        format!("{}{}", self, name)
     }
 }
 
@@ -326,6 +328,7 @@ pub struct ProgramOption {
     pub group: Option<String>,
 }
 
+#[allow(clippy::non_canonical_partial_ord_impl)]
 impl PartialOrd for ProgramOption {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         let a_matches_with_equals = self.kind.syntax_matches_with_equals();
