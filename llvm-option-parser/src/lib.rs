@@ -83,7 +83,7 @@ fn argument_matches_prefix<'a>(arg: &ProgramOption, s: &'a OsStr) -> Option<Cow<
 
         if s_bytes.starts_with(search.as_bytes()) {
             return Some(Cow::Borrowed(OsStr::from_bytes(
-                &s_bytes[search.as_bytes().len()..],
+                &s_bytes[search.len()..],
             )));
         }
     }
