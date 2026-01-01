@@ -82,13 +82,22 @@ pub fn parse_str(data: &str) -> Result<Vec<TbdVersionedRecord>, ParseError> {
     // tags. We then pair things up and feed each document into the serde_yaml
     // deserializer for the given type.
 
-    let yamls = yaml_rust2::YamlLoader::load_from_str(data)?;
+    // But wait - there's more! Some .tbd files have string arrays with unquoted
+    // members and for reasons unknown, sometimes we see syntax like `val0,,val1`.
+    // The Rust YAML parser rejects this syntax. (It is unclear if this syntax
+    // conforms to the YAML specifications.) We work around this by normalizing
+    // `,,` to `,`. This very well could mutate meaningful values. But we audited
+    // for this pattern before adding this code and could not find any occurrences
+    // of `,,` outside the problematic syntax, so we believed it to be safe.
+    let normalized_data = data.replace(",,", ",");
+
+    let yamls = yaml_rust2::YamlLoader::load_from_str(&normalized_data)?;
 
     // We got valid YAML. That's a good sign. Proceed with document/tag scanning.
 
     let mut document_versions = vec![];
 
-    for line in data.lines() {
+    for line in normalized_data.lines() {
         // Start of new YAML document.
         if line.starts_with("---") {
             let version = if line.starts_with(TBD_V2_DOCUMENT_START) {
