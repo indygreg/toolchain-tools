@@ -52,7 +52,7 @@ jobs:
 
           just llvm-gnu-linux-${{ matrix.build.ourarch }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: toolchain-linux-${{ matrix.build.ourarch }}
           path: |
