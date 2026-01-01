@@ -40,45 +40,8 @@ jobs:
           toolchain: ${{ matrix.rust_toolchain }}
           components: clippy
 
-      - name: Cache crates.io Index
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
-        with:
-          path: |
-            ~/.cargo/registry/index
-            ~/.cargo/registry/cache
-            ~/.cargo/git
-          key: ${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
-
-      - name: Install sccache (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          python3 scripts/secure_download.py \
-            https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-unknown-linux-musl.tar.gz \
-            e6cd8485f93d683a49c83796b9986f090901765aa4feb40d191b03ea770311d8 \
-            sccache.tar.gz
-          tar -xvzf sccache.tar.gz
-          mv sccache-v0.3.0-x86_64-unknown-linux-musl/sccache /home/runner/.cargo/bin/sccache
-          rm -rf sccache*
-          chmod +x /home/runner/.cargo/bin/sccache
-
-      - name: Install sccache (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          python3 scripts/secure_download.py \
-            https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-apple-darwin.tar.gz \
-            61c16fd36e32cdc923b66e4f95cb367494702f60f6d90659af1af84c3efb11eb \
-            sccache.tar.gz
-          tar -xvzf sccache.tar.gz
-          mv sccache-v0.3.0-x86_64-apple-darwin/sccache /Users/runner/.cargo/bin/sccache
-          rm -rf sccache*
-          chmod +x /Users/runner/.cargo/bin/sccache
-
-      - name: Install sccache (Windows)
-        if: steps.cache-sccache-windows.outputs.cache-hit != 'true' && runner.os == 'Windows'
-        run: |
-          python3 scripts/secure_download.py https://github.com/mozilla/sccache/releases/download/v0.3.0/sccache-v0.3.0-x86_64-pc-windows-msvc.tar.gz f25e927584d79d0d5ad489e04ef01b058dad47ef2c1633a13d4c69dfb83ba2be sccache.tar.gz
-          tar -xvzf sccache.tar.gz
-          mv sccache-v0.3.0-x86_64-pc-windows-msvc/sccache.exe C:/Users/runneradmin/.cargo/bin/sccache.exe
+      - name: Install sccache-cache
+        uses: mozilla-actions/sccache-action@7d986dd989559c6ecdb630a3fd2557667be217ad
 
       - name: Start sccache
         run: |
@@ -103,7 +66,3 @@ jobs:
           RUSTC_WRAPPER: sccache
         run: |
           cargo clippy --workspace --all-targets --all-features
-
-      - name: Stop sccache
-        run: |
-          sccache --stop-server
