@@ -9,7 +9,7 @@
 pub mod yaml;
 
 use yaml::*;
-use yaml_rust::ScanError;
+use yaml_rust2::ScanError;
 
 /// Version of a TBD document.
 #[derive(Copy, Clone, Debug)]
@@ -33,7 +33,7 @@ pub enum TbdVersionedRecord {
 /// Represents an error when parsing TBD YAML.
 #[derive(Debug)]
 pub enum ParseError {
-    YamlError(yaml_rust::ScanError),
+    YamlError(yaml_rust2::ScanError),
     DocumentCountMismatch,
     Serde(serde_yaml::Error),
 }
@@ -52,7 +52,7 @@ impl std::fmt::Display for ParseError {
 
 impl std::error::Error for ParseError {}
 
-impl From<yaml_rust::ScanError> for ParseError {
+impl From<yaml_rust2::ScanError> for ParseError {
     fn from(e: ScanError) -> Self {
         Self::YamlError(e)
     }
@@ -82,7 +82,7 @@ pub fn parse_str(data: &str) -> Result<Vec<TbdVersionedRecord>, ParseError> {
     // tags. We then pair things up and feed each document into the serde_yaml
     // deserializer for the given type.
 
-    let yamls = yaml_rust::YamlLoader::load_from_str(data)?;
+    let yamls = yaml_rust2::YamlLoader::load_from_str(data)?;
 
     // We got valid YAML. That's a good sign. Proceed with document/tag scanning.
 
@@ -120,7 +120,7 @@ pub fn parse_str(data: &str) -> Result<Vec<TbdVersionedRecord>, ParseError> {
     for (index, value) in yamls.iter().enumerate() {
         // TODO We could almost certainly avoid the YAML parsing round trip
         let mut s = String::new();
-        yaml_rust::YamlEmitter::new(&mut s).dump(value).unwrap();
+        yaml_rust2::YamlEmitter::new(&mut s).dump(value).unwrap();
 
         res.push(match document_versions[index] {
             TbdVersion::V1 => TbdVersionedRecord::V1(serde_yaml::from_str(&s)?),
