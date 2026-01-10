@@ -11,5 +11,5 @@ homepage = "https://github.com/indygreg/toolchain-tools"
 repository = "https://github.com/indygreg/toolchain-tools.git"
 
 [dependencies]
-object = "0.38.0"
+object = "0.38.1"
 thiserror = "2.0.17"
