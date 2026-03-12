@@ -239,8 +239,8 @@ RUN PARALLEL=${PARALLEL} /build/zstd-build.sh
 
 FROM ${BASE_IMAGE} AS cpython
 ARG PARALLEL=16
-ARG PYTHON_VERSION=3.13.3
-ARG PYTHON_SHA256=40f868bcbdeb8149a3149580bb9bfd407b3321cd48f0be631af955ac92c0e041
+ARG PYTHON_VERSION=3.13.12
+ARG PYTHON_SHA256=2a84cd31dd8d8ea8aaff75de66fc1b4b0127dd5799aa50a64ae9a313885b4593
 ADD --link --checksum=sha256:${PYTHON_SHA256} https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz cpython.tar.xz
 RUN apt-get install --force-yes autoconf automake build-essential libffi-dev make tar xz-utils zlib1g-dev
 COPY --from=binutils --link /build/out/toolchain /toolchain/
