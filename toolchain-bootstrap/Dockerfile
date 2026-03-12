@@ -217,8 +217,8 @@ RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
 
 FROM ${BASE_IMAGE} AS openssl
 ARG PARALLEL=16
-ARG OPENSSL_VERSION=3.0.16
-ARG OPENSSL_SHA256=57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86
+ARG OPENSSL_VERSION=3.0.19
+ARG OPENSSL_SHA256=fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072
 RUN apt-get install --force-yes build-essential
 ADD --link --checksum=sha256:${OPENSSL_SHA256} --chmod=644 https://github.com/openssl/openssl/releases/download/openssl-${OPENSSL_VERSION}/openssl-${OPENSSL_VERSION}.tar.gz openssl.tar.gz
 COPY --from=binutils --link /build/out/toolchain /toolchain/
