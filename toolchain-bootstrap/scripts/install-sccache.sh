@@ -4,14 +4,14 @@ set -euo errexit -o pipefail
 
 if [ $(uname -m) = "x86_64" ]; then
   arch=x86_64
-  sha256=b0e89ead6899224a4ba2b90e9073bf1ce036d95bab30f3dc33c1e1468bc4ad44
+  sha256=8424b38cda4ecce616a1557d81328f3d7c96503a171eab79942fad618b42af44
 else
   arch=aarch64
-  sha256=111ddd28fb108cb3e17edb69ab62cefe1dcc97b02e5006ff9c1330f4f2e78368
+  sha256=62a6c942c47c93333bc0174704800cef7edfa0416d08e1356c1d3e39f0b462f2
 fi
 
 secure-download.sh \
-  https://github.com/mozilla/sccache/releases/download/v0.12.0/sccache-v0.12.0-${arch}-unknown-linux-musl.tar.gz \
+  https://github.com/mozilla/sccache/releases/download/v0.14.0/sccache-v0.14.0-${arch}-unknown-linux-musl.tar.gz \
   ${sha256} \
   sccache.tar.gz
 
