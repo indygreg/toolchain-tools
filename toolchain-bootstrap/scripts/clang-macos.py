@@ -37,9 +37,9 @@ DOWNLOADS = [
     },
     {
         "name": "ninja",
-        "url": "https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-mac.zip",
-        "sha256": "6fa359f491fac7e5185273c6421a000eea6a2f0febf0ac03ac900bd4d80ed2a5",
-        "version": "1.10.2",
+        "url": "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-mac.zip",
+        "sha256": "c99048673aa765960a99cf10c6ddb9f1fad506099ff0a0e137ad8960a88f321b",
+        "version": "1.13.2",
     },
     {
         "name": "llvm",

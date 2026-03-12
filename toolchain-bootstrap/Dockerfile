@@ -277,13 +277,13 @@ fi
 EOF
 
 FROM scratch AS download-ninja-aarch64
-ARG NINJA_VERSION=1.12.1
-ARG NINJA_SHA256=5c25c6570b0155e95fce5918cb95f1ad9870df5768653afe128db822301a05a1
+ARG NINJA_VERSION=1.13.2
+ARG NINJA_SHA256=fd2cacc8050a7f12a16a2e48f9e06fca5c14fc4c2bee2babb67b58be17a607fc
 ADD --link --checksum=sha256:${NINJA_SHA256} https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux-aarch64.zip /ninja.zip
 
 FROM scratch AS download-ninja-x86_64
-ARG NINJA_VERSION=1.12.1
-ARG NINJA_SHA256=6f98805688d19672bd699fbbfa2c2cf0fc054ac3df1f0e6a47664d963d530255
+ARG NINJA_VERSION=1.13.2
+ARG NINJA_SHA256=5749cbc4e668273514150a80e387a957f933c6ed3f5f11e03fb30955e2bbead6
 ADD --link --checksum=sha256:${NINJA_SHA256} https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip /ninja.zip
 
 FROM ${BASE_IMAGE} AS download-ninja
