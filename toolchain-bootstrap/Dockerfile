@@ -139,7 +139,7 @@ FROM gnu-build AS binutils-initial
 ARG BINUTILS_INITIAL_VERSION=2.41
 ARG BINUTILS_INITIAL_SHA256=ae9a5789e23459e59606e6714723f2d3ffc31c03174191ef0d015bdf06007450
 
-ADD --link --checksum=sha256:${BINUTILS_INITIAL_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/binutils/binutils-${BINUTILS_INITIAL_VERSION}.tar.xz binutils.tar.xz
+ADD --link --checksum=sha256:${BINUTILS_INITIAL_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/binutils/binutils-${BINUTILS_INITIAL_VERSION}.tar.xz binutils.tar.xz
 COPY --link scripts/binutils-build.sh /build/
 RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     BUILD_CC=/usr/bin/gcc BUILD_CXX=/usr/bin/g++ /build/binutils-build.sh
@@ -157,8 +157,8 @@ ARG MPC_SHA256=617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3
 ARG MPFR_VERSION=3.1.6
 ARG MPFR_SHA256=cf4f4b2d80abb79e820e78c8077b6725bbbb4e8f41896783c899087be0e94068
 
-ADD --link --checksum=sha256:${GCC_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz gcc-10.tar.xz
-ADD --link --checksum=sha256:${GMP_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/gmp/gmp-${GMP_VERSION}.tar.xz gmp-6.1.tar.xz
+ADD --link --checksum=sha256:${GCC_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz gcc-10.tar.xz
+ADD --link --checksum=sha256:${GMP_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/gmp/gmp-${GMP_VERSION}.tar.xz gmp-6.1.tar.xz
 ADD --link --checksum=sha256:${ISL_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/isl-${ISL_VERSION}.tar.bz2 isl-0.18.tar.bz2
 ADD --link --checksum=sha256:${MPC_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpc-${MPC_VERSION}.tar.gz mpc-1.0.tar.gz
 ADD --link --checksum=sha256:${MPFR_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-${MPFR_VERSION}.tar.bz2 mpfr-3.1.tar.bz2
@@ -177,7 +177,7 @@ FROM gnu-build AS binutils
 ARG BINUTILS_VERSION=2.46
 ARG BINUTILS_SHA256=a389850c2d3919f2cc96fb8b5e7711eacfc819259aaffb11615c9fb9756eaeae
 
-ADD --link --checksum=sha256:${BINUTILS_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/binutils/binutils-with-gold-${BINUTILS_VERSION}.tar.xz binutils.tar.xz
+ADD --link --checksum=sha256:${BINUTILS_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/binutils/binutils-with-gold-${BINUTILS_VERSION}.tar.xz binutils.tar.xz
 COPY --from=binutils-initial --link /build/out/toolchain /toolchain/
 COPY --from=gcc-10 --link /build/out-install/toolchain /toolchain/
 COPY --link scripts/binutils-build.sh /build/binutils-build.sh
@@ -200,8 +200,8 @@ ARG MPC_SHA256=17503d2c395dfcf106b622dc142683c1199431d095367c6aacba6eec30340459
 ARG MPFR_VERSION=4.1.0
 ARG MPFR_SHA256=feced2d430dd5a97805fa289fed3fc8ff2b094c02d05287fd6133e7f1f0ec926
 
-ADD --link --checksum=sha256:${GCC_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz gcc-15.tar.xz
-ADD --link --checksum=sha256:${GMP_SHA256} --chmod=644 https://ftpmirror.gnu.org/gnu/gmp/gmp-${GMP_VERSION}.tar.xz gmp-6.2.tar.xz
+ADD --link --checksum=sha256:${GCC_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz gcc-15.tar.xz
+ADD --link --checksum=sha256:${GMP_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/gmp/gmp-${GMP_VERSION}.tar.xz gmp-6.2.tar.xz
 ADD --link --checksum=sha256:${ISL_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/isl-${ISL_VERSION}.tar.bz2 isl-0.24.tar.bz2
 ADD --link --checksum=sha256:${MPC_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpc-${MPC_VERSION}.tar.gz mpc-1.2.tar.gz
 ADD --link --checksum=sha256:${MPFR_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-${MPFR_VERSION}.tar.bz2 mpfr-4.1.tar.bz2
