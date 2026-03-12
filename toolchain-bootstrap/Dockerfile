@@ -256,13 +256,13 @@ ARG LLVM_SHA256=9c6f37f6f5f68d38f435d25f770fc48c62d92b2412205767a16dac2c942f0c95
 ADD --link --checksum=sha256:${LLVM_SHA256} https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-project-${LLVM_VERSION}.src.tar.xz /llvm.tar.xz
 
 FROM scratch AS download-cmake-aarch64
-ARG CMAKE_VERSION=3.31.7
-ARG CMAKE_SHA256=e5b2dc2aefdca10afe09c8fa4ee2bbb4e732665943a94322f99c118781910c3c
+ARG CMAKE_VERSION=3.31.11
+ARG CMAKE_SHA256=faef5420c3853d0e10a3862a0d3c71b40ffc2de36fc0ef0bcc5c896cf18f240f
 ADD --link --checksum=sha256:${CMAKE_SHA256} https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-aarch64.tar.gz /cmake.tar.gz
 
 FROM scratch AS download-cmake-x86_64
-ARG CMAKE_VERSION=3.31.7
-ARG CMAKE_SHA256=14e15d0b445dbeac686acc13fe13b3135e8307f69ccf4c5c91403996ce5aa2d4
+ARG CMAKE_VERSION=3.31.11
+ARG CMAKE_SHA256=d815c10cf54e8e122088b3bb25ea6b4010fb96b7ad6e1ad3fdef75be3d996b0b
 ADD --link --checksum=sha256:${CMAKE_SHA256} https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz /cmake.tar.gz
 
 FROM ${BASE_IMAGE} AS download-cmake
