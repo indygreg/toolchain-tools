@@ -251,8 +251,8 @@ RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     PARALLEL=${PARALLEL} /build/cpython-build.sh
 
 FROM scratch AS download-llvm
-ARG LLVM_VERSION=22.1.2
-ARG LLVM_SHA256=62f2f13ff25b1bb28ea507888e858212d19aafb65e8e72b4a65ee0629ec4ae0c
+ARG LLVM_VERSION=22.1.3
+ARG LLVM_SHA256=2488c33a959eafba1c44f253e5bbe7ac958eb53fa626298a3a5f4b87373767cd
 ADD --link --checksum=sha256:${LLVM_SHA256} https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-project-${LLVM_VERSION}.src.tar.xz /llvm.tar.xz
 
 FROM scratch AS download-cmake-aarch64
