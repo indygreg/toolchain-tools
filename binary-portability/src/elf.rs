@@ -32,7 +32,7 @@ pub fn analyze_elf<Elf: FileHeader<Endian = Endianness>>(data: &[u8]) -> Result<
 
             for entry in entries {
                 // DT_NEEDED defines external libraries we require.
-                if entry.tag32(endian) == Some(DT_NEEDED) {
+                if entry.tag(endian) == DT_NEEDED {
                     let value = entry.string(endian, strings)?;
                     let value = String::from_utf8_lossy(value).to_string();
 
