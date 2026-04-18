@@ -1,6 +1,7 @@
 [workspace]
 members = [
     'binary-portability',
+    'glibc-abi-tool',
     'llvm-command-parser',
     'llvm-command-tablegen-json',
     'llvm-option-parser',

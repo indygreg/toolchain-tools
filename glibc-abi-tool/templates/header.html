@@ -1,0 +1,13 @@
+<head>
+  <meta charset="UTF-8" />
+  <style>
+      {% include "common.css" %}
+  </style>
+  <script>
+    {% include "script.js" %}
+
+    {% if onload != "" %}
+    window.onload = {{ onload }};
+    {% endif %}
+  </script>
+</head>

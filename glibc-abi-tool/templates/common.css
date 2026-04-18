@@ -1,0 +1,16 @@
+tr, th, td {
+    border: 1px solid black;
+}
+
+td.deleted {
+    color: red;
+    font-weight: bold;
+}
+
+td.empty {
+    border: 0;
+}
+
+tr.hidden {
+    display: none;
+}

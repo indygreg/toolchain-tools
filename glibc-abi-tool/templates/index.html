@@ -1,0 +1,47 @@
+<html>
+{% let onload = "" %}
+{% include "header.html" %}
+<body>
+<h1>glibc Version History</h1>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Git Tag</th>
+        <th>Full Version</th>
+        <th>X.Y Version</th>
+        <th>Git Commit</th>
+    </tr>
+    {% for v in versions %}
+    <tr>
+        <td>{{ v.commit_date }}</td>
+        <td><a href="https://sourceware.org/git/?p=glibc.git;a=tag;h={{ v.tag_id }}">{{ v.tag }}</a></td>
+        <td>{{ v.semver_version }}</td>
+        <td>{{ v.version.major_minor() }}</td>
+        <td><a href="https://sourceware.org/git/?p=glibc.git;a=commit;h={{ v.commit_id }}">{{ v.commit_id }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h1>glibc ABI Report</h1>
+<ul>
+    {% for target in targets %}
+    <li><a href="{{ target | escape }}.html">{{ target | escape }}</a></li>
+    {% endfor %}
+</ul>
+
+<h1>Common Distro glibc Versions</h1>
+<table>
+    <tr>
+        <th>Distribution</th>
+        <th>Versions</th>
+    </tr>
+    {% for distro in distros %}
+    <tr>
+        <td>{{ distro.name_string() | escape }}</td>
+        <td>{{ distro.glibc_version.major_minor() }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<html>
+{% let onload = "archVersionsOnLoad" %}
+{% include "header.html" %}
+<body>
+  <h1>Glibc Symbol Report for {{ platform }}</h1>
+  <div>
+    <span>
+      <input id="omnipresent" type="checkbox" onchange="omnipresentChanged(this)">
+      <label for="omnipresent">Hide Omnipresent</label></span>
+  </div>
+  <table>
+    <tr>
+      <th>Library</th>
+      <th>Symbol</th>
+      {% for v in glibc_versions -%}
+      <th>{{ v }}</th>
+      {% endfor %}
+    </tr>
+    {% for s in symbols -%}
+    <tr{% if s.row_class != "" %} class="{{ s.row_class }}"{% endif %}>
+      <td>{{ s.library }}</td>
+      <td>{{ s.symbol }}</td>
+      {%- for cell in s.cells -%}
+      {% if cell.deleted -%}
+      <td class="deleted">x</td>
+      {%- else %}
+      <td{% if cell.span > 0 %} colspan="{{ cell.span + 1 }}"{% endif %}{% if cell.value == "" %} class="empty"{% endif %}>{{ cell.value }}</td>
+      {%- endif -%}
+      {%- endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
