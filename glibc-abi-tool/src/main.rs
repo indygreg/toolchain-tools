@@ -6,9 +6,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-mod abilist;
-mod repo;
-mod report;
+pub mod abilist;
+pub mod repo;
+pub mod report;
 
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;

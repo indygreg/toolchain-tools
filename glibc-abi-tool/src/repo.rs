@@ -56,7 +56,7 @@ pub struct Tag {
 
 impl PartialOrd<Self> for Tag {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.semver_version.partial_cmp(&other.semver_version)
+        Some(self.cmp(other))
     }
 }
 
@@ -155,7 +155,7 @@ impl Repo {
                 continue;
             }
 
-            seen_majmin.insert(tag.version.clone());
+            seen_majmin.insert(tag.version);
             res.push(tag);
         }
 
