@@ -23,11 +23,26 @@
 </table>
 
 <h1>glibc ABI Report</h1>
-<ul>
+<table>
+    <tr>
+        <th>Target</th>
+        {% for v in latest_versions %}
+        <th>{{ v.version.major_minor() }}</th>
+        {% endfor %}
+    </tr>
     {% for target in targets %}
-    <li><a href="{{ target | escape }}.html">{{ target | escape }}</a></li>
+    <tr>
+        <td><a href="{{ target.target | escape }}.html">{{ target.target | escape }}</a></td>
+        {% for v in latest_versions %}
+        <td>
+            {% if let Some(stats) = target.counts.get(v.version) %}
+            {{ stats.libraries }} libraries; {{ stats.symbols}} symbols
+            {% endif %}
+        </td>
+        {% endfor %}
+    </tr>
     {% endfor %}
-</ul>
+</table>
 
 <h1>Common Distro glibc Versions</h1>
 <table>

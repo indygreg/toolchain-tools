@@ -476,13 +476,14 @@ impl DerefMut for ABILists {
 }
 
 impl ABILists {
-    /// Obtain all directories containing .abilist files.
-    pub fn all_directories(&self) -> BTreeSet<PathBuf> {
-        let mut res = BTreeSet::new();
-
-        for p in self.keys() {
-            if let Some(parent) = p.parent() {
-                res.insert(parent.to_path_buf());
+    /// Split a collection of ABI lists by the directory they are in.
+    pub fn split_by_directory(self) -> BTreeMap<PathBuf, ABILists> {
+        let mut res = BTreeMap::<PathBuf, ABILists>::new();
+        for (path, list) in self.0.into_iter() {
+            if let Some(parent) = path.parent() {
+                res.entry(parent.to_path_buf())
+                    .or_default()
+                    .insert(path, list);
             }
         }
 
@@ -508,6 +509,28 @@ impl ABILists {
     /// Discard all entries that aren't relevant to the specified target enumeration.
     pub fn filter_known_target(&mut self, target: ABIListTarget) {
         self.filter_target(target.into());
+    }
+
+    /// Obtain the counts of symbols per library in this collection.
+    pub fn library_symbol_counts(&self) -> BTreeMap<String, usize> {
+        let mut res = BTreeMap::<String, usize>::new();
+
+        for (path, list) in self.iter() {
+            if list.symbols.len() == 0 {
+                continue;
+            }
+
+            let library = path
+                .file_stem()
+                .expect("should have file stem")
+                .to_str()
+                .expect("should be valid str");
+
+            let count = res.entry(library.to_string()).or_default();
+            *count += list.symbols.len();
+        }
+
+        res
     }
 
     /// Obtain all symbol references from all tracked files.
@@ -591,11 +614,15 @@ impl DerefMut for VersionedAbiLists {
 }
 
 impl VersionedAbiLists {
-    pub fn all_directories(&self) -> BTreeSet<PathBuf> {
-        let mut res = BTreeSet::new();
+    pub fn split_by_directory(self) -> BTreeMap<PathBuf, VersionedAbiLists> {
+        let mut res = BTreeMap::new();
 
-        for (_, lists) in self.iter() {
-            res.extend(lists.all_directories());
+        for (version, lists) in self.0.into_iter() {
+            for (dir, list) in lists.split_by_directory() {
+                res.entry(dir.clone())
+                    .or_insert_with(|| VersionedAbiLists(BTreeMap::new()))
+                    .insert(version, list);
+            }
         }
 
         res
@@ -657,8 +684,8 @@ mod tests {
                 list.all_glibc_symbols();
             }
 
-            for target in ABIListTarget::iter() {
-                abilists.clone().filter_known_target(target);
+            for (dir, lists) in abilists.split_by_directory() {
+                assert!(lists.all_entries().count() > 0);
             }
 
             Ok(())

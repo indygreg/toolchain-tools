@@ -200,9 +200,9 @@ impl GlibcArchTemplateSymbolCell {
 pub fn write_report(repo: &Repo, root_dir: &Path) -> Result<()> {
     let lists = repo.library_versioned_abilists()?;
 
-    let mut platforms = vec![];
+    let mut platforms = BTreeMap::new();
 
-    for dir in lists.all_directories() {
+    for (dir, target_lists) in lists.split_by_directory() {
         let dir_normal = dir.display().to_string().replace("/", "-");
 
         let dir_normal = dir_normal
@@ -211,10 +211,12 @@ pub fn write_report(repo: &Repo, root_dir: &Path) -> Result<()> {
             .replace("mach-hurd", "hurd")
             .replace("unix-sysv-linux", "linux");
 
-        platforms.push(dir_normal.clone());
+        let mut version_stats = BTreeMap::new();
+        for (version, lists) in target_lists.iter() {
+            version_stats.insert(*version, lists.library_symbol_counts());
+        }
 
-        let mut target_lists = lists.clone();
-        target_lists.filter_parent(&dir);
+        platforms.insert(dir_normal.clone(), version_stats);
 
         let dest_file = root_dir.join(format!("{}.html", dir_normal));
         println!("writing {}", dest_file.display());
@@ -423,19 +425,70 @@ pub fn write_versioned_report(
 #[derive(Template)]
 #[template(path = "index.html", ext = "html")]
 struct IndexTemplate {
-    targets: Vec<String>,
+    targets: Vec<IndexTarget>,
     versions: Vec<Tag>,
+    latest_versions: Vec<Tag>,
     distros: Vec<DistroVersion>,
 }
 
-pub fn write_index(repo: &Repo, root_dir: &Path, platforms: &[String]) -> Result<()> {
+struct IndexTarget {
+    target: String,
+    counts: BTreeMap<GlibcVersion, IndexTargetVersionCounts>,
+}
+
+#[derive(Default)]
+struct IndexTargetVersionCounts {
+    libraries: usize,
+    symbols: usize,
+}
+
+pub fn write_index(
+    repo: &Repo,
+    root_dir: &Path,
+    platforms: &BTreeMap<String, BTreeMap<GlibcVersion, BTreeMap<String, usize>>>,
+) -> Result<()> {
     let mut versions = repo.tags()?;
     versions.sort();
     versions.reverse();
 
+    let mut latest_versions = repo
+        .latest_tags()?
+        .into_iter()
+        .filter(|t| {
+            t.version.ge(&GlibcVersion {
+                major: 2,
+                minor: 16,
+                patch: None,
+            })
+        })
+        .collect::<Vec<_>>();
+    latest_versions.sort();
+
+    let mut targets = vec![];
+    for (target, version_stats) in platforms {
+        let counts = version_stats
+            .iter()
+            .map(|(version, stats)| {
+                (
+                    *version,
+                    IndexTargetVersionCounts {
+                        libraries: stats.len(),
+                        symbols: stats.values().sum(),
+                    },
+                )
+            })
+            .collect::<BTreeMap<_, _>>();
+
+        targets.push(IndexTarget {
+            target: target.clone(),
+            counts,
+        })
+    }
+
     let t = IndexTemplate {
-        targets: platforms.to_vec(),
+        targets,
         versions,
+        latest_versions,
         distros: DISTRO_GLIBC_VERSIONS.to_vec(),
     };
 
