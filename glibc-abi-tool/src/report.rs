@@ -244,8 +244,11 @@ pub fn write_versioned_report(
 
     let mut symbols_by_name = BTreeMap::new();
     let mut symbols_by_lib = BTreeSet::new();
+    let mut glibc_versions = BTreeSet::new();
 
     for (version, lists) in versioned_abi_lists.iter() {
+        let mut any_symbol = false;
+
         for (path, list) in lists.iter() {
             let lib = path
                 .file_stem()
@@ -263,8 +266,13 @@ pub fn write_versioned_report(
                         .push((version, lib, symbol));
 
                     symbols_by_lib.insert((lib, symbol.name.as_str()));
+                    any_symbol = true;
                 }
             }
+        }
+
+        if any_symbol {
+            glibc_versions.insert(version);
         }
     }
 
@@ -288,11 +296,11 @@ pub fn write_versioned_report(
         let mut previous_column_version = None;
         let mut previous_version_refs = BTreeSet::new();
 
-        for column_version in versioned_abi_lists.keys() {
+        for column_version in glibc_versions.iter() {
             // All of the references to this symbol name in this library in this glibc version.
             let our_refs = refs
                 .iter()
-                .filter(|(v, lib, _)| *v == column_version && *lib == library)
+                .filter(|(v, lib, _)| *v == *column_version && *lib == library)
                 .collect::<Vec<_>>();
 
             let our_version_refs = our_refs
@@ -378,7 +386,7 @@ pub fn write_versioned_report(
                 }
             }
 
-            _ = previous_column_version.insert(column_version);
+            _ = previous_column_version.insert(*column_version);
             previous_version_refs = our_version_refs;
         }
 
@@ -403,10 +411,7 @@ pub fn write_versioned_report(
 
     let t = GlibcArchTemplate {
         platform: name,
-        glibc_versions: versioned_abi_lists
-            .keys()
-            .map(|v| v.major_minor())
-            .collect(),
+        glibc_versions: glibc_versions.iter().map(|v| v.major_minor()).collect(),
         symbols,
     };
 
