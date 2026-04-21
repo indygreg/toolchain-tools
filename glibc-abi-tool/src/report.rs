@@ -10,7 +10,7 @@ use crate::abilist::{SymbolType, VersionedAbiLists};
 use crate::repo::{GlibcVersion, Repo, Tag};
 use anyhow::{Result, anyhow};
 use askama::Template;
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
 #[derive(Clone)]
@@ -227,67 +227,74 @@ pub fn write_versioned_report(
     versioned_abi_lists: &VersionedAbiLists,
     mut w: impl std::io::Write,
 ) -> Result<()> {
-    let mut all_library_symbols = BTreeSet::new();
-
-    for (_, lists) in versioned_abi_lists.iter() {
-        for (path, list) in lists.iter() {
-            let lib = path
-                .file_stem()
-                .expect("should have file stem")
-                .to_str()
-                .expect("should be valid path");
-
-            for symbol in list.symbols.iter() {
-                if symbol.version.starts_with("GLIBC_")
-                    && symbol.symbol_type != SymbolType::Absolute
-                {
-                    all_library_symbols.insert((lib, symbol.name.as_str()));
-                }
-            }
-        }
-    }
-
     versioned_abi_lists
         .keys()
         .next()
         .ok_or(anyhow!("no glibc version"))?;
 
+    let mut symbols_by_name = BTreeMap::new();
+    let mut symbols_by_lib = BTreeSet::new();
+
+    for (version, lists) in versioned_abi_lists.iter() {
+        for (path, list) in lists.iter() {
+            let lib = path
+                .file_stem()
+                .ok_or(anyhow!("no library name"))?
+                .to_str()
+                .ok_or(anyhow!("path should be valid"))?;
+
+            for symbol in list.symbols.iter() {
+                if symbol.version.starts_with("GLIBC_")
+                    && symbol.symbol_type != SymbolType::Absolute
+                {
+                    symbols_by_name
+                        .entry(symbol.name.as_str())
+                        .or_insert(vec![])
+                        .push((version, lib, symbol));
+
+                    symbols_by_lib.insert((lib, symbol.name.as_str()));
+                }
+            }
+        }
+    }
+
     let mut symbols = vec![];
 
-    // This algorithm isn't efficient. It would be optimal to iterate the lists and
-    // build up a mapping of symbol -> version info. We incur a lot of overhead
-    // to find symbols data on all versions for every symbol.
-
-    for (lib, symbol) in all_library_symbols {
+    // We iterate over symbols by library so libraries are grouped together.
+    for (library, symbol) in symbols_by_lib {
         let mut cells = vec![];
-
         let mut seen_versions = BTreeSet::new();
 
-        for version_lists in versioned_abi_lists.values() {
-            let versions = version_lists
-                .entries_for_library_symbol(lib, symbol)
-                .filter_map(|s| s.symbol.glibc_version)
+        let refs = symbols_by_name.get(symbol).expect("key should exist");
+
+        for column_version in versioned_abi_lists.keys() {
+            let our_refs = refs
+                .iter()
+                .filter(|(v, lib, _)| *v == column_version && *lib == library)
+                .collect::<Vec<_>>();
+            let our_version_refs = our_refs
+                .iter()
+                .filter_map(|(_, _, s)| s.glibc_version)
                 .collect::<BTreeSet<_>>();
 
-            seen_versions.insert(versions.clone());
-
-            let versions_s = versions
+            let our_version_refs_s = our_version_refs
                 .iter()
                 .map(|v| v.major_minor_patch())
                 .collect::<Vec<_>>()
                 .join(", ");
 
+            seen_versions.insert(our_version_refs.clone());
+
             match cells.last_mut() {
                 // This is the first glibc version. Create a new entry.
-                None => {
-                    cells.push(GlibcArchTemplateSymbolCell {
-                        value: versions_s,
-                        span: 0,
-                        deleted: false,
-                    });
-                }
+                None => cells.push(GlibcArchTemplateSymbolCell {
+                    value: our_version_refs_s,
+                    span: 0,
+                    deleted: false,
+                }),
+
                 // Symbol was removed in this version. Create a placeholder.
-                Some(last) if !last.value.is_empty() && versions.is_empty() => {
+                Some(last) if !last.value.is_empty() && our_version_refs.is_empty() => {
                     cells.push(GlibcArchTemplateSymbolCell {
                         value: "".to_string(),
                         span: 0,
@@ -297,18 +304,18 @@ pub fn write_versioned_report(
                 // Always insert a fresh cell following a deletion.
                 Some(last) if last.deleted => {
                     cells.push(GlibcArchTemplateSymbolCell {
-                        value: versions_s,
+                        value: our_version_refs_s,
                         span: 0,
                         deleted: false,
                     });
                 }
                 // Same value as last time. Extend the cell to this column.
-                Some(last) if last.value == versions_s => {
+                Some(last) if last.value == our_version_refs_s => {
                     last.span += 1;
                 }
                 _ => {
                     cells.push(GlibcArchTemplateSymbolCell {
-                        value: versions_s,
+                        value: our_version_refs_s,
                         span: 0,
                         deleted: false,
                     });
@@ -317,7 +324,7 @@ pub fn write_versioned_report(
         }
 
         symbols.push(GlibcArchTemplateSymbol {
-            library: lib.to_string(),
+            library: library.to_string(),
             symbol: symbol.to_string(),
             row_class: if seen_versions.len() == 1 {
                 "omnipresent"
