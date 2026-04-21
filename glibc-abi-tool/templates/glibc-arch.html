@@ -6,7 +6,8 @@
   <div>
     <span>
       <input id="omnipresent" type="checkbox" onchange="omnipresentChanged(this)">
-      <label for="omnipresent">Hide Omnipresent</label></span>
+      <label for="omnipresent">Hide Omnipresent</label>
+    </span>
   </div>
   <table>
     <tr>
@@ -21,11 +22,8 @@
       <td>{{ s.library }}</td>
       <td>{{ s.symbol }}</td>
       {%- for cell in s.cells -%}
-      {% if cell.deleted -%}
-      <td class="deleted">x</td>
-      {%- else %}
-      <td{% if cell.span > 0 %} colspan="{{ cell.span + 1 }}"{% endif %}{% if cell.value == "" %} class="empty"{% endif %}>{{ cell.value }}</td>
-      {%- endif -%}
+      {% let (class, value) = cell.class_and_content() %}
+      <td{% if cell.span > 0 %} colspan="{{ cell.span + 1 }}"{% endif %}{% if class != "" %} class="{{ class }}"{% endif %}>{{ value }}</td>
       {%- endfor %}
     </tr>
     {% endfor %}

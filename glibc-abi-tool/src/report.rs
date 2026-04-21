@@ -177,7 +177,7 @@ struct GlibcArchTemplate {
 struct GlibcArchTemplateSymbol {
     library: String,
     symbol: String,
-    row_class: &'static str,
+    row_class: String,
     cells: Vec<GlibcArchTemplateSymbolCell>,
 }
 
@@ -185,6 +185,16 @@ struct GlibcArchTemplateSymbolCell {
     value: String,
     span: usize,
     deleted: bool,
+}
+
+impl GlibcArchTemplateSymbolCell {
+    pub fn class_and_content(&self) -> (&'static str, String) {
+        match (self.deleted, self.value.as_str()) {
+            (true, _) => ("deleted", "x".to_string()),
+            (false, "") => ("empty", "".to_string()),
+            (false, v) => ("", v.to_string()),
+        }
+    }
 }
 
 pub fn write_report(repo: &Repo, root_dir: &Path) -> Result<()> {
@@ -264,37 +274,83 @@ pub fn write_versioned_report(
     for (library, symbol) in symbols_by_lib {
         let mut cells = vec![];
         let mut seen_versions = BTreeSet::new();
+        let mut have_moves = false;
+        let mut have_deletions = false;
 
         let refs = symbols_by_name.get(symbol).expect("key should exist");
 
+        // All references to this symbol name in other libraries. All versions.
+        let other_lib_refs = refs
+            .iter()
+            .filter(|(_, lib, _)| *lib != library)
+            .collect::<Vec<_>>();
+
+        let mut previous_column_version = None;
+        let mut previous_version_refs = BTreeSet::new();
+
         for column_version in versioned_abi_lists.keys() {
+            // All of the references to this symbol name in this library in this glibc version.
             let our_refs = refs
                 .iter()
                 .filter(|(v, lib, _)| *v == column_version && *lib == library)
                 .collect::<Vec<_>>();
+
             let our_version_refs = our_refs
                 .iter()
                 .filter_map(|(_, _, s)| s.glibc_version)
                 .collect::<BTreeSet<_>>();
 
-            let our_version_refs_s = our_version_refs
-                .iter()
-                .map(|v| v.major_minor_patch())
-                .collect::<Vec<_>>()
-                .join(", ");
+            // Now for each symbol version, construct the value to print.
+            let mut parts = vec![];
+
+            for symbol_version in our_version_refs.iter() {
+                // Annotate if this version can be matched to a different library in the
+                // previous column's version.
+                let mut extra = "".to_string();
+                if let Some(previous_version) = previous_column_version {
+                    let previous_libs = other_lib_refs
+                        .iter()
+                        .filter_map(|(v, lib, s)| {
+                            if *v == previous_version
+                                && s.glibc_version
+                                    .as_ref()
+                                    .is_some_and(|x| *x == *symbol_version)
+                            {
+                                Some(*lib)
+                            } else {
+                                None
+                            }
+                        })
+                        .collect::<BTreeSet<_>>();
+
+                    if !previous_libs.is_empty() {
+                        have_moves = true;
+                        extra = format!(
+                            " (moved from {})",
+                            previous_libs.into_iter().collect::<Vec<_>>().join(", ")
+                        )
+                    };
+                }
+
+                parts.push(format!("{}{}", symbol_version.major_minor_patch(), extra));
+            }
+
+            let value = parts.join(", ");
 
             seen_versions.insert(our_version_refs.clone());
 
             match cells.last_mut() {
                 // This is the first glibc version. Create a new entry.
                 None => cells.push(GlibcArchTemplateSymbolCell {
-                    value: our_version_refs_s,
+                    value,
                     span: 0,
                     deleted: false,
                 }),
 
                 // Symbol was removed in this version. Create a placeholder.
                 Some(last) if !last.value.is_empty() && our_version_refs.is_empty() => {
+                    have_deletions = true;
+
                     cells.push(GlibcArchTemplateSymbolCell {
                         value: "".to_string(),
                         span: 0,
@@ -304,33 +360,43 @@ pub fn write_versioned_report(
                 // Always insert a fresh cell following a deletion.
                 Some(last) if last.deleted => {
                     cells.push(GlibcArchTemplateSymbolCell {
-                        value: our_version_refs_s,
+                        value,
                         span: 0,
                         deleted: false,
                     });
                 }
                 // Same value as last time. Extend the cell to this column.
-                Some(last) if last.value == our_version_refs_s => {
+                Some(last) if our_version_refs == previous_version_refs => {
                     last.span += 1;
                 }
                 _ => {
                     cells.push(GlibcArchTemplateSymbolCell {
-                        value: our_version_refs_s,
+                        value,
                         span: 0,
                         deleted: false,
                     });
                 }
             }
+
+            _ = previous_column_version.insert(column_version);
+            previous_version_refs = our_version_refs;
+        }
+
+        let mut row_classes = vec![];
+        if seen_versions.len() == 1 {
+            row_classes.push("omnipresent");
+        }
+        if have_deletions {
+            row_classes.push("deletion");
+        }
+        if have_moves {
+            row_classes.push("moves");
         }
 
         symbols.push(GlibcArchTemplateSymbol {
             library: library.to_string(),
             symbol: symbol.to_string(),
-            row_class: if seen_versions.len() == 1 {
-                "omnipresent"
-            } else {
-                ""
-            },
+            row_class: row_classes.join(" "),
             cells,
         })
     }
