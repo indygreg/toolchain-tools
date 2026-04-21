@@ -214,7 +214,7 @@ pub fn write_report(repo: &Repo, root_dir: &Path) -> Result<()> {
         platforms.push(dir_normal.clone());
 
         let mut target_lists = lists.clone();
-        target_lists.filter_prefix(&dir);
+        target_lists.filter_parent(&dir);
 
         let dest_file = root_dir.join(format!("{}.html", dir_normal));
         println!("writing {}", dest_file.display());

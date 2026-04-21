@@ -489,14 +489,20 @@ impl ABILists {
         res
     }
 
-    /// Removes all entries that don't have the given path prefix.
-    pub fn filter_prefix(&mut self, path: &Path) {
-        self.retain(|key, _| key.starts_with(path))
+    /// Removes all entries that don't have the given path parent.
+    pub fn filter_parent(&mut self, path: &Path) {
+        self.retain(|key, _| {
+            if let Some(parent) = key.parent() {
+                parent == path
+            } else {
+                false
+            }
+        })
     }
 
     /// Discard all entries that aren't relevant to the specified target.
     pub fn filter_target(&mut self, target: ABITarget) {
-        self.filter_prefix(Path::new(&target.sysdeps_path()))
+        self.filter_parent(Path::new(&target.sysdeps_path()))
     }
 
     /// Discard all entries that aren't relevant to the specified target enumeration.
@@ -596,9 +602,9 @@ impl VersionedAbiLists {
     }
 
     /// Discard all path entries that aren't under the given directory.
-    pub fn filter_prefix(&mut self, prefix: &Path) {
+    pub fn filter_parent(&mut self, parent: &Path) {
         for (_, lists) in self.iter_mut() {
-            lists.filter_prefix(prefix);
+            lists.filter_parent(parent);
         }
     }
 
