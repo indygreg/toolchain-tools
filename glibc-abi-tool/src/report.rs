@@ -202,7 +202,7 @@ pub fn write_report(repo: &Repo, root_dir: &Path) -> Result<()> {
 
     let mut platforms = BTreeMap::new();
 
-    for (dir, target_lists) in lists.split_by_directory() {
+    for (dir, target_lists) in lists.split_by_directory(true) {
         let dir_normal = dir.display().to_string().replace("/", "-");
 
         let dir_normal = dir_normal

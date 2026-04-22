@@ -477,9 +477,24 @@ impl DerefMut for ABILists {
 
 impl ABILists {
     /// Split a collection of ABI lists by the directory they are in.
-    pub fn split_by_directory(self) -> BTreeMap<PathBuf, ABILists> {
+    pub fn split_by_directory(self, merge_identical: bool) -> BTreeMap<PathBuf, ABILists> {
         let mut res = BTreeMap::<PathBuf, ABILists>::new();
         for (path, list) in self.0.into_iter() {
+            let path = if merge_identical {
+                // nptl directory was pruned.
+                if let Some(parent) = path.parent()
+                    && parent.ends_with("nptl")
+                    && let Some(grandparent) = parent.parent()
+                    && let Some(file_name) = path.file_name()
+                {
+                    grandparent.join(file_name)
+                } else {
+                    path
+                }
+            } else {
+                path
+            };
+
             if let Some(parent) = path.parent() {
                 res.entry(parent.to_path_buf())
                     .or_default()
@@ -614,11 +629,11 @@ impl DerefMut for VersionedAbiLists {
 }
 
 impl VersionedAbiLists {
-    pub fn split_by_directory(self) -> BTreeMap<PathBuf, VersionedAbiLists> {
+    pub fn split_by_directory(self, merge_identical: bool) -> BTreeMap<PathBuf, VersionedAbiLists> {
         let mut res = BTreeMap::new();
 
         for (version, lists) in self.0.into_iter() {
-            for (dir, list) in lists.split_by_directory() {
+            for (dir, list) in lists.split_by_directory(merge_identical) {
                 res.entry(dir.clone())
                     .or_insert_with(|| VersionedAbiLists(BTreeMap::new()))
                     .insert(version, list);
@@ -684,7 +699,7 @@ mod tests {
                 list.all_glibc_symbols();
             }
 
-            for (dir, lists) in abilists.split_by_directory() {
+            for (dir, lists) in abilists.split_by_directory(false) {
                 assert!(lists.all_entries().count() > 0);
             }
 
