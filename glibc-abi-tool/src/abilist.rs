@@ -531,7 +531,7 @@ impl ABILists {
         let mut res = BTreeMap::<String, usize>::new();
 
         for (path, list) in self.iter() {
-            if list.symbols.len() == 0 {
+            if list.symbols.is_empty() {
                 continue;
             }
 
