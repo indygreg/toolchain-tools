@@ -668,7 +668,6 @@ mod tests {
     use super::*;
     use crate::repo::Repo;
     use gix::path::env::home_dir;
-    use strum::IntoEnumIterator;
 
     #[test]
     fn load_all() -> Result<()> {
@@ -699,7 +698,7 @@ mod tests {
                 list.all_glibc_symbols();
             }
 
-            for (dir, lists) in abilists.split_by_directory(false) {
+            for (_, lists) in abilists.split_by_directory(false) {
                 assert!(lists.all_entries().count() > 0);
             }
 
