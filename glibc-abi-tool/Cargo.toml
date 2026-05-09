@@ -10,7 +10,7 @@ description = "Support targeting different libc versions"
 
 [dependencies]
 anyhow = "1.0.102"
-askama = "0.15.6"
+askama = "0.16.0"
 clap = { version = "4.6.1", features = ["derive"] }
 gix = { version = "0.81.0", default-features = false, features = ["parallel", "sha1"] }
 gix-ref = { version = "0.61.0", features = ["sha1"] }
