@@ -42,6 +42,7 @@ cmake \
   -DLLVM_ENABLE_ZSTD=OFF \
   -DLLVM_INSTALL_UTILS=ON \
   -DLLVM_LINK_LLVM_DYLIB=ON \
+  -DLLVM_USE_LINKER=bfd \
   -G Ninja \
   ../llvm/llvm
 
