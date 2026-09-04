@@ -230,7 +230,7 @@ impl Repo {
             .map(|tag| {
                 let mut abilists = self.library_abilists_for_commit(tag.commit_id)?;
 
-                for (_, list) in abilists.iter_mut() {
+                for list in abilists.values_mut() {
                     list.sort_common();
                 }
 

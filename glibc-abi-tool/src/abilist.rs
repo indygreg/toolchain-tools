@@ -645,14 +645,14 @@ impl VersionedAbiLists {
 
     /// Discard all path entries that aren't under the given directory.
     pub fn filter_parent(&mut self, parent: &Path) {
-        for (_, lists) in self.iter_mut() {
+        for lists in self.values_mut() {
             lists.filter_parent(parent);
         }
     }
 
     /// Discard all entries that aren't relevant to the specified target.
     pub fn filter_target(&mut self, target: ABITarget) {
-        for (_, lists) in self.0.iter_mut() {
+        for lists in self.0.values_mut() {
             lists.filter_target(target);
         }
     }
