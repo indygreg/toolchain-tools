@@ -57,7 +57,7 @@ pub fn analyze_elf<Elf: FileHeader<Endian = Endianness>>(data: &[u8]) -> Result<
                         let version_index =
                             versions.version_index(endian, object::SymbolIndex(symbol_index));
 
-                        if let Some(version) = versions.version(version_index)? {
+                        if let Some(version) = versions.version(version_index.into())? {
                             let version = version.name();
                             let version = String::from_utf8_lossy(version).to_string();
 
