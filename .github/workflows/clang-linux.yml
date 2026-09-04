@@ -53,7 +53,7 @@ jobs:
           export NINJA_MAX_LOAD=12
           EOF
 
-          just llvm-gnu-linux-${{ matrix.build.ourarch }}
+          just --unstable llvm-gnu-linux-${{ matrix.build.ourarch }}
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:

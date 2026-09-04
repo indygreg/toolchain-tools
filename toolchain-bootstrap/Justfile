@@ -1,4 +1,16 @@
+set lists
+set shell := if os() == "macos" { ["zsh", "-uc"] } else { ["bash", "-uc"] }
+
 extra_args := if path_exists("secrets") == "true" { "--secret id=secrets,type=file" } else { "" }
+
+s3_region := shell('source secrets && echo $SCCACHE_REGION') || ""
+s3_bucket := shell('source secrets && echo $SCCACHE_BUCKET') || ""
+s3_access_key_id := shell('source secrets && echo $AWS_ACCESS_KEY_ID') || ""
+s3_secret_access_key := shell('source secrets && echo $AWS_SECRET_ACCESS_KEY') || ""
+
+s3_cache_common := if s3_region != "" { "region={{s3_region}},bucket={{s3_bucket}},access_key_id={{s3_access_key_id}},secret_access_key={{s3_secret_access_key}}" } else { "" }
+s3_cache_import := if s3_cache_common != "" { "--import-cache type=s3,{{s3_cache_common}},name=main" } else { "" }
+s3_cache_export := if s3_cache_common != "" { "-export-cache type=s3,{{s3_cache_common}},name=main,mode=max" } else { "" }
 
 # An LLVM+Clang toolchain using GNU libraries and runtimes.
 llvm-gnu-linux-x86-64:
@@ -13,7 +25,7 @@ _build_and_copy_gnu_linux arch platform base_image:
    export BUILDKIT_STEP_LOG_MAX_SIZE=-1
    export BUILDKIT_STEP_LOG_MAX_SPEED=-1
    mkdir -p build
-   docker buildx build {{extra_args}} --platform {{platform}} --build-arg BASE_IMAGE={{base_image}} --build-arg SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) --iidfile build/imageid.txt .
+   docker buildx build {{extra_args}} {{s3_cache_import}} {{s3_cache_export}} --platform {{platform}} --build-arg BASE_IMAGE={{base_image}} --build-arg SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) --iidfile build/imageid.txt .
    cid=$(docker create --rm $(cat build/imageid.txt))
    docker cp ${cid}:/build/llvm.tar.zst build/llvm-gnu_only-{{arch}}-unknown-linux-gnu.tar.zst
    docker rm -v ${cid}
