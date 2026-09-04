@@ -693,7 +693,7 @@ mod tests {
 
             let abilists = repo.library_abilists_for_commit(tag.commit_id)?;
 
-            for (_, list) in abilists.iter() {
+            for list in abilists.values() {
                 list.all_glibc_versions();
                 list.all_glibc_symbols();
             }
