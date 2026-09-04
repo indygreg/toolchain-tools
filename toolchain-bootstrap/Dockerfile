@@ -140,7 +140,7 @@ ARG BINUTILS_INITIAL_VERSION=2.41
 ARG BINUTILS_INITIAL_SHA256=ae9a5789e23459e59606e6714723f2d3ffc31c03174191ef0d015bdf06007450
 
 ADD --link --checksum=sha256:${BINUTILS_INITIAL_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/binutils/binutils-${BINUTILS_INITIAL_VERSION}.tar.xz binutils.tar.xz
-COPY --link scripts/binutils-build.sh /build/
+COPY --link --chown=1000:1000 scripts/binutils-build.sh /build/
 RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     BUILD_CC=/usr/bin/gcc BUILD_CXX=/usr/bin/g++ /build/binutils-build.sh
 
@@ -163,7 +163,7 @@ ADD --link --checksum=sha256:${ISL_SHA256} --chmod=644 https://gcc.gnu.org/pub/g
 ADD --link --checksum=sha256:${MPC_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpc-${MPC_VERSION}.tar.gz mpc-1.0.tar.gz
 ADD --link --checksum=sha256:${MPFR_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-${MPFR_VERSION}.tar.bz2 mpfr-3.1.tar.bz2
 COPY --from=binutils-initial --link /build/out/toolchain /toolchain/
-COPY --link scripts/gcc-build-linux.sh /build/gcc-build.sh
+COPY --link --chown=1000:1000 scripts/gcc-build-linux.sh /build/gcc-build.sh
 RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     GCC_VERSION=10 GMP_VERSION=6.1 ISL_VERSION=0.18 MPC_VERSION=1.0 MPFR_VERSION=3.1 \
     BUILD_CC=/usr/bin/gcc BUILD_CXX=/usr/bin/g++ \
@@ -180,7 +180,7 @@ ARG BINUTILS_SHA256=a389850c2d3919f2cc96fb8b5e7711eacfc819259aaffb11615c9fb9756e
 ADD --link --checksum=sha256:${BINUTILS_SHA256} --chmod=644 https://mirrors.ocf.berkeley.edu/gnu/binutils/binutils-with-gold-${BINUTILS_VERSION}.tar.xz binutils.tar.xz
 COPY --from=binutils-initial --link /build/out/toolchain /toolchain/
 COPY --from=gcc-10 --link /build/out-install/toolchain /toolchain/
-COPY --link scripts/binutils-build.sh /build/binutils-build.sh
+COPY --link --chown=1000:1000 scripts/binutils-build.sh /build/binutils-build.sh
 RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     BUILD_CC=/toolchain/bin/gcc \
     BUILD_CXX=/toolchain/bin/g++ \
@@ -207,7 +207,7 @@ ADD --link --checksum=sha256:${MPC_SHA256} --chmod=644 https://gcc.gnu.org/pub/g
 ADD --link --checksum=sha256:${MPFR_SHA256} --chmod=644 https://gcc.gnu.org/pub/gcc/infrastructure/mpfr-${MPFR_VERSION}.tar.bz2 mpfr-4.1.tar.bz2
 COPY --from=binutils --link /build/out/toolchain /toolchain/
 COPY --from=gcc-10 --link /build/out-install/toolchain /toolchain/
-COPY --link scripts/gcc-build-linux.sh /build/gcc-build.sh
+COPY --link --chown=1000:1000 scripts/gcc-build-linux.sh /build/gcc-build.sh
 RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     GCC_VERSION=15 GMP_VERSION=6.2 ISL_VERSION=0.24 MPC_VERSION=1.2 MPFR_VERSION=4.1 \
     BUILD_CC=/toolchain/bin/gcc \
@@ -251,8 +251,8 @@ RUN --mount=type=secret,id=secrets,target=/build/secrets,uid=1000 \
     PARALLEL=${PARALLEL} /build/cpython-build.sh
 
 FROM scratch AS download-llvm
-ARG LLVM_VERSION=22.1.3
-ARG LLVM_SHA256=2488c33a959eafba1c44f253e5bbe7ac958eb53fa626298a3a5f4b87373767cd
+ARG LLVM_VERSION=23.1.0
+ARG LLVM_SHA256=ab1f0e3ec52448c33e8782eaf0422504b87c7b016b22514653ee0d8fcee479ff
 ADD --link --checksum=sha256:${LLVM_SHA256} https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-project-${LLVM_VERSION}.src.tar.xz /llvm.tar.xz
 
 FROM scratch AS download-cmake-aarch64
